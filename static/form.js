@@ -69,22 +69,22 @@ $(document).ready(function(){
     console.log(descriptors);
   });
 
-  $(wrapperP).on("click", ".remove_field", function(e){
+  $(wrapperP).on("click", ".remove_field1", function(e){
     var onlyNum = this.id.toString().slice(-1);
     var index = onlyNum-1;
-    //console.log("~~~~~~~~~~~~~~~~~~~~`` remove of desc");
-    //console.log(index);
+    console.log("~~~~~~~~~~~~~~~~~~~remove of prop~~~~~~~~~~~~~~~~~~~~~~~");
+    console.log(index);
     properties.splice(index, 1);
-    //console.log("old pdcount");
-    //console.log(d);
+    console.log("old pdcount");
+    console.log(p);
     p--;
     e.preventDefault(); $(this).parent('div').remove();
-    $(".remove_field").each(function(){
+    $(".remove_field1").each(function(){
       if (this.id > index+1){
         this.id = this.id -1;
       }
     });
-    $(".add_field").each(function(){
+    $(".add_field1").each(function(){
       if (this.id > index+1){
         this.id = this.id -1;
       }
@@ -100,16 +100,18 @@ $(document).ready(function(){
       dataType: 'json',
       data: JSON.stringify(finalData),
       contentType:"application/json; charset=UTF-8",
-      // success: function(data){
-      //   if (data==true){
-      //     $(".output").text(data);
-      //   }
-      // }
+      success: function (data) {
+        console.log(JSON.stringify(finalData))
+        //$("p").text(JSON.stringify(finalData));
+        //alert(JSON.stringify(finalData));
+      }
     })
     .done(function(data){
       console.log(data)
       $(".output").text(data);
     });
     event.preventDefault();
+    window.location.href='/add';
   });
+
 });
