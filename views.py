@@ -9,8 +9,9 @@ def home():
 @app.route("/add", methods=["GET","POST"])
 def add():
     if request.method == "POST":
-        recData = request.get_json()
-        print(recData)
+        data = request.get_json()
+        print(data)
+        return render_template("output.html", data=data)
     return render_template("index.html")
 
 
