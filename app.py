@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, url_for, jsonify, json, redirect
 import requests
 import makeTable
+import plotly
+from plotly import graph_objs as go
 
 
 app = Flask(__name__)
@@ -8,7 +10,12 @@ cache = {}
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    traceValues = makeTable.tableData()
+    print(traceValues)
+    trace = go.Scatter(x = traceValues['x'], y = traceValues['y'])
+    data =[trace]
+    scatter = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
+    return render_template("index.html", scatter=scatter)
 
 @app.route("/add", methods=["POST", "GET"])
 def add():
@@ -20,7 +27,6 @@ def add():
         print("from POST")
         print(data)
         print(cache["descriptors"])
-        makeTable.tableData
         return jsonify(data)
     if request.method == "GET":
         #data = {"WHYYYYYYYYYYYYYYYYYYYYYYY": "KMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP"}

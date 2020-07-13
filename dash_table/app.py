@@ -10,6 +10,7 @@ import dash_table
 import plotly.express as px
 import pandas as pd
 from dash.dependencies import Input, Output
+import matplotlib.pyplot as plt
 import csv
 import requests
 
@@ -20,12 +21,12 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 url = 'http://localhost:5000/vizier-db/api/v1/projects/12020d28/datasets/6070d166f8f846c2a609cdb0ea65ad12/csv'
 resp = requests.get(url)
 
-with open('data.csv','w') as f:
+with open('data1.csv','w') as f:
     writer = csv.writer(f)
     for line in resp.iter_lines():
         writer.writerow(line.decode('utf-8').split(','))
 
-df = pd.read_csv('data.csv')
+df = pd.read_csv('data1.csv')
 
 #df[' index'] = range(1, len(df) + 1)
 
@@ -71,6 +72,9 @@ def update_table(page_current, page_size, sort_by):
     return dff.iloc[
         page_current*page_size:(page_current+ 1)*page_size
     ].to_dict('records')
+
+df.plot.scatter(x='CASE_NAME', y='JSC', c='DarkBlue')
+plt.show
 
 if __name__ == '__main__':
     app.run_server(debug=True)
