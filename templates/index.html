@@ -25,7 +25,8 @@
       </div>
       <button type="submit" id="submit" class="btn btn-default"> SUBMIT </button>
     </form>
-    <iframe id="dash-table" src="http://localhost:8050" width=700 height=600></iframe>
+    <div id="table">
+    <iframe id="dash-table" src="http://localhost:8050" width=700 height=300></iframe>
     </div>
 
 <div id="chart" class="chart">
@@ -33,6 +34,36 @@
   </body>
   <script type="text/javascript">
 var graphs = {{scatter | safe }};
-Plotly.newPlot('chart', graphs, {});
+var layout = {
+  title: {
+    text:'Correlation of descriptor values',
+    font: {
+      family: 'Courier New, monospace',
+      size: 15
+    },
+    xref: 'paper',
+  },
+  xaxis: {
+    title: {
+      text: 'JSC',
+      font: {
+        family: 'Courier New, monospace',
+        size: 12,
+        color: '#7f7f7f'
+      }
+    },
+  },
+  yaxis: {
+    title: {
+      text: 'JSC/INT_D',
+      font: {
+        family: 'Courier New, monospace',
+        size: 12,
+        color: '#7f7f7f'
+      }
+    }
+  }
+};
+Plotly.newPlot('chart', graphs, layout);
 </script>
 </html>
