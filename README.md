@@ -3,9 +3,17 @@ in development process :)
 
 To run:
 
-`cd dash_table`
+`cd vizier`
 
-`python app.py`
+`cd mimir-api`
+
+`sbt run`
+
+`cd ..`
+
+`cd web-api-async`
+
+`vizier`
 
 `cd ..`
 
