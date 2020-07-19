@@ -1,15 +1,114 @@
+body            { font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;}
+a, h1, h2       { color: #377ba8; }
+h1, h2          { margin: 0; text-align: center;}
+h1              { border-bottom: 2px solid #eee; text-align: center}
+h2              { font-size: 1.2em; }
+
+
 #table{
   position: fixed;
-  top: 10%;
-  left: 30%;
+  top: 20%;
+  left: 25%;
   margin-top: -50px;
   margin-left: -100px;
 }
 
 #chart{
   position: fixed;
-  top: 5%;
+  top: 15%;
   left: 70%;
   margin-top: -50px;
   margin-left: -100px;
 }
+
+#form{
+  top: 20%
+}
+
+div.dataTables_wrapper {
+        width: 800px;
+        margin: 0 auto;
+}
+
+table{
+  style="width:100%"
+}
+
+/* table.dataframe, .dataframe th, .dataframe td {
+  border: none;
+  border-bottom: 1px solid #C8C8C8;
+  border-collapse: collapse;
+  text-align:left;
+  padding: 10px;
+  margin-bottom: 40px;
+  font-size: 0.9em;
+  width: 500px;
+  resize: both;
+  overflow: auto;
+}
+
+.dataframe tbody{
+  display:block;
+  overflow:auto;
+  height:200px;
+  width:100%;
+}
+.dataframe thead tr{
+  display:block;
+}
+
+.dataframe{
+max-width: 600px;
+margin: 0 auto;
+} */
+#dataframe, td {
+white-space: nowrap;
+}
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+bottom: .5em;
+}
+
+/* table.dataframe, .dataframe th, .dataframe td {
+  border: none;
+  border-bottom: 1px solid #C8C8C8;
+  border-collapse: collapse;
+  text-align:left;
+  padding: 10px;
+  margin-bottom: 40px;
+  font-size: 0.9em;
+  width: 500px;
+  resize: both;
+  overflow: auto;
+}
+
+/* .dataset thead tr {
+   display: block;
+} */
+
+
+/* .dataset tbody{
+  display:block;
+  width: 100%;
+  overflow: auto;
+  height: 100px;
+}  */
+
+
+
+
+/* .dataframe tbody{
+  display:block;
+  overflow:auto;
+  height:200px;
+  width:100%;
+}
+*/

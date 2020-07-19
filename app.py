@@ -1,25 +1,35 @@
 from flask import Flask, render_template, request, url_for, jsonify, json, redirect
 import requests
+import makePlot
 import makeTable
 import plotly
 from plotly import graph_objs as go
+import pandas as pd
+import csv
+from flask_bootstrap import Bootstrap
+
+
 
 
 app = Flask(__name__)
+bootstrap = Bootstrap(app)
 cache = {}
 
 @app.route("/")
 def home():
-    traceValues = makeTable.tableData()
+    traceValues = makePlot.plotData()
     print(traceValues)
     trace = go.Scatter(x = traceValues['x'], y = traceValues['y'])
     data =[trace]
     scatter = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
-    return render_template("index.html", scatter=scatter)
-
+    table = makeTable.dataTable
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print(table)
+    # table=[table.to_html(classes='data',header="true")]
+    return render_template("index.html", scatter=scatter, table=[table.to_html(header="true")])
 @app.route("/add", methods=["POST", "GET"])
 def add():
-    #cache["first"] = json.loads(request.json)
+    #cache["first"] = json.loads(request.json), data=dara
     if request.method == "POST":
         data = request.json
         global cache

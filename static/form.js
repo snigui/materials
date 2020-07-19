@@ -114,4 +114,8 @@ $(document).ready(function(){
     window.location.href='/add';
   });
 
+  $('.dataframe').DataTable({
+  "scrollX": true,
+  "scrollY": 200,
+  });
 });
