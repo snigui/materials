@@ -120,7 +120,10 @@ $(document).ready(function(){
   "scrollX": true,
   "scrollY": 200,
   "rowCallback": function( row, data ) {
-    rowID++;
+    //this is needed temp for now because i do not have actual uncertainity data, removing this and having full data will fix the coloring
+    if (rowID < 1){
+      rowID++;
+    }
     rowIndicies = datatable[rowID]
     //get list of this rowID index and for all indicies in that list, color them.
     console.log("~~~~~~~~");

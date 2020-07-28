@@ -8,7 +8,7 @@ dict = os.system('cat /home/saki/source/web-api-async/vizier-data/.vizierdb/ds/b
 
 response = requests.post('http://localhost:8089/api/v2/query/data', data = json.dumps({ 'query' : 'SELECT * FROM VIEW_230163258', 'includeUncertainty' : True }))
 json_response = response.json()
-#print(json_response['colTaint'])
+print(json_response['colTaint'])
 #boolean= json_response['colTaint']
 boolean = [[False, False, False, False, True, False, False, False, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False],
  [True, True, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]]
