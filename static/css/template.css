@@ -13,6 +13,12 @@ h2              { font-size: 1.2em; }
   margin-left: -100px;
 }
 
+td.highlight {
+        font-weight: bold;
+        color: black;
+        background: #FFBEE1;
+}
+
 #chart{
   position: fixed;
   top: 15%;

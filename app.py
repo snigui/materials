@@ -24,9 +24,10 @@ def home():
     scatter = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
     table = makeTable.dataTable
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    print(table)
+    tabledata = json.dumps(makeTable.boolData)
+    print(tabledata)
     # table=[table.to_html(classes='data',header="true")]
-    return render_template("index.html", scatter=scatter, table=[table.to_html(header="true")])
+    return render_template("index.html", scatter=scatter, table=[table.to_html(header="true")], tabledata=tabledata)
 @app.route("/add", methods=["POST", "GET"])
 def add():
     #cache["first"] = json.loads(request.json), data=dara

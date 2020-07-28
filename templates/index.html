@@ -21,7 +21,7 @@
     <h1> Wireframe Website</h1>
     <h2> Materials project</h2>
     <p>Descriptors</p>
-    <form action="/add" method="POST">
+    <form id="form" action="/add" method="POST">
       <div class="descriptors">
         <button class = "addDesc"> Add Descriptor </button>
         <div><input type="descriptorText" class="add_field" name="descriptor" id="d1"><a href="#" id="d1" class="remove_field">Remove</a></div>
@@ -33,7 +33,7 @@
       </div>
       <button type="submit" id="submit" class="btn btn-default"> SUBMIT </button>
     </form>
-    <div style="overflow-y:auto" id="table">
+    <div style="overflow-y:auto" id="table" name='{{ tabledata }}' >
       {% for tables in table %}
           {{ tables|safe }}
       {% endfor %}

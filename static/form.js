@@ -113,9 +113,41 @@ $(document).ready(function(){
     event.preventDefault();
     window.location.href='/add';
   });
-
+  var rowID = -1;
+  var datatable = JSON.parse($("#table").attr("name"));
+  console.log(datatable);
   $('.dataframe').DataTable({
   "scrollX": true,
   "scrollY": 200,
+  "rowCallback": function( row, data ) {
+    rowID++;
+    rowIndicies = datatable[rowID]
+    //get list of this rowID index and for all indicies in that list, color them.
+    console.log("~~~~~~~~");
+    console.log(datatable);
+    console.log("~~~~~~~~~");
+    console.log(datatable[rowID]);
+    console.log("~~~~~~~~~");
+    console.log(rowID);
+    for (i of rowIndicies){
+        console.log("COLORING THIS NUM: ")
+        console.log(i);
+        $('td', row).eq(i).addClass('highlight');
+      }
+      // if (datatable[index] == 1){
+      //   console.log(index);
+      //   var id = 0;
+      //   if (index >= 30){
+      //     id = Math.floor(index / (30 * rowID));
+      //     console.log("before math");
+      //     console.log(index);
+      //     console.log("after math");
+      //     console.log(id);
+      //   }
+        //$('td', row).eq(4).addClass('highlight');
+      }
   });
+  // var tabley = $('.dataframe').DataTable();
+  // console.log(tabley.row(0).data().column(0).data());
+  // console.log(tabley.column(0).data());
 });
