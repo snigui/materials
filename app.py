@@ -17,17 +17,17 @@ cache = {}
 
 @app.route("/")
 def home():
-    traceValues = makePlot.plotData()
-    print(traceValues)
-    trace = go.Scatter(x = traceValues['x'], y = traceValues['y'])
-    data =[trace]
-    scatter = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
+    # traceValues = makePlot.plotData()
+    # print(traceValues)
+    # trace = go.Scatter(x = traceValues['x'], y = traceValues['y'])
+    # data =[trace]
+    # scatter = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
     table = makeTable.dataTable
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     tabledata = json.dumps(makeTable.boolData)
     print(tabledata)
     # table=[table.to_html(classes='data',header="true")]
-    return render_template("index.html", scatter=scatter, table=[table.to_html(header="true")], tabledata=tabledata)
+    return render_template("index.html", table=[table.to_html(header="true")], tabledata=tabledata)
 @app.route("/add", methods=["POST", "GET"])
 def add():
     #cache["first"] = json.loads(request.json), data=dara

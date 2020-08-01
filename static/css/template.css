@@ -40,33 +40,6 @@ table{
   style="width:100%"
 }
 
-/* table.dataframe, .dataframe th, .dataframe td {
-  border: none;
-  border-bottom: 1px solid #C8C8C8;
-  border-collapse: collapse;
-  text-align:left;
-  padding: 10px;
-  margin-bottom: 40px;
-  font-size: 0.9em;
-  width: 500px;
-  resize: both;
-  overflow: auto;
-}
-
-.dataframe tbody{
-  display:block;
-  overflow:auto;
-  height:200px;
-  width:100%;
-}
-.dataframe thead tr{
-  display:block;
-}
-
-.dataframe{
-max-width: 600px;
-margin: 0 auto;
-} */
 #dataframe, td {
 white-space: nowrap;
 }
