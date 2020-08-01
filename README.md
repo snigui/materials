@@ -17,6 +17,12 @@ To run:
 
 `cd ..`
 
+`cd dash_table`
+
+`python app.py`
+
+`cd ..`
+
 `python app.py`
 
 and visit localhost:2000
