@@ -30,7 +30,8 @@ def home():
     # table=[table.to_html(classes='data',header="true")]
     #table=[table.to_html(header="true")], tabledata=tabledata
     return render_template("index.html")
-@app.route("/add", methods=["POST", "GET"])
+
+@app.route("/add", methods=["POST"])
 def add():
     #cache["first"] = json.loads(request.json), data=dara
     if request.method == "POST":
@@ -55,7 +56,7 @@ def add():
         return render_template("output.html", table=[table.to_html(header="true")], tabledata=tabledata)
     return render_template("output.html")
 
-@app.route("/output", methods=["GET"])
+@app.route("/output")
 def output():
     if request.method=="GET":
         dataOutput = request.json
