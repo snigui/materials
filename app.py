@@ -22,34 +22,36 @@ def home():
     # trace = go.Scatter(x = traceValues['x'], y = traceValues['y'])
     # data =[trace]
     # scatter = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
-    table = makeTable.dataTable
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    tabledata = json.dumps(makeTable.boolData)
-    print(tabledata)
+    # table = makeTable.dataTable
+    # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    # tabledata = json.dumps(makeTable.boolData)
+    # print(tabledata)
     # table=[table.to_html(classes='data',header="true")]
-    return render_template("index.html", table=[table.to_html(header="true")], tabledata=tabledata)
+    #table=[table.to_html(header="true")], tabledata=tabledata
+    return render_template("index.html")
 @app.route("/add", methods=["POST", "GET"])
 def add():
     #cache["first"] = json.loads(request.json), data=dara
     if request.method == "POST":
+        #clicking add and remove will save this input
         data = request.json
         global cache
         cache = data
-        print("from POST")
-        print(data)
-        print(cache["descriptors"])
+        #print("from POST")
+        #print(data)
+        #print(cache["descriptors"])
         return jsonify(data)
     if request.method == "GET":
-        #data = {"WHYYYYYYYYYYYYYYYYYYYYYYY": "KMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP"}
-        data0 = requests.get('http://localhost:5000/vizier-db/api/v1/projects/12020d28/datasets/6070d166f8f846c2a609cdb0ea65ad12').content
-        loadedData = json.loads(data0)
-        data = loadedData["columns"]
-        #data = cache["first"]
+        #upon clicking submit this stuff will render
         print("from GET!")
         print(cache)
-        print("length!!", makeTable.tableData(loadedData))
-        #print(loadedData["columns"])
-        return render_template("output.html", data=loadedData)
+        print(cache["descriptors"])
+        table = makeTable.outputTable(cache["descriptors"])
+            # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        tabledata = json.dumps(makeTable.boolData)
+            # print(tabledata)
+            #table=[table.to_html(header="true")], tabledata=tabledata
+        return render_template("output.html", table=[table.to_html(header="true")], tabledata=tabledata)
     return render_template("output.html")
 
 @app.route("/output", methods=["GET"])

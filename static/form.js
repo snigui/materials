@@ -124,7 +124,7 @@ $(document).ready(function(){
     if (rowID < 1){
       rowID++;
     }
-    rowIndicies = datatable[rowID]
+    var rowIndicies = datatable[rowID]
     //get list of this rowID index and for all indicies in that list, color them.
     console.log("~~~~~~~~");
     console.log(datatable);

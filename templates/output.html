@@ -1,12 +1,29 @@
 <!doctype html>
 <html>
 <head>
-  <script>"static/form.js"</script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"/>
+  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css"/> -->
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> -->
+  <link rel="stylesheet" href="{{ url_for('static',    filename='css/template.css') }}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+  <!-- <script type="text/javascript" src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script> -->
+  <script src="static/form.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
    <body >
-     <h1>Results:</h1>
-     <div id="cache">
-       {{ data }}
+     <h1>Charts:</h1>
+     <div style="overflow-y:auto" id="table" name='{{ tabledata }}' >
+       {% for tables in table %}
+           {{ tables|safe }}
+       {% endfor %}
+     <!-- <iframe id="dash-table" src="http://localhost:8050" width=700 height=300></iframe> -->
      </div>
+     <div id="chart" class="chart">
+       <iframe id="dash-table" src="http://localhost:8050" width=700 height=500></iframe>
+     </div>
+
    </body>
 </html>
