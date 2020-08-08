@@ -6,13 +6,14 @@ import plotly
 from plotly import graph_objs as go
 import pandas as pd
 import csv
-from flask_bootstrap import Bootstrap
 
 
+# make the index.html show only 1 input for form
+# fix table with boolean coloring and remove search bar
+# make plot not use csv and maybe directly read of sql data
 
 
 app = Flask(__name__)
-bootstrap = Bootstrap(app)
 cache = {}
 
 @app.route("/")
