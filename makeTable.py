@@ -11,6 +11,8 @@ import re
 # make the table better!
 # make the plot not use csv
 
+queryString = "SELECT * FROM VIEW_230163258"
+
 class FilterCondition:
 
     def __init__(self, attribute: str):
@@ -52,8 +54,6 @@ def is_number(s: str):
         return False
 
 
-
-
 def outputTable(cache):
     #print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     #print(cache)
@@ -67,16 +67,39 @@ def outputTable(cache):
     counter = -1
     for col in json_response['schema']:
         cols.append(col['name'])
-        #print(col['name'])
     for row in json_response['data']:
         counter+=1
         rows.append(row)
         #print(row, "\n", counter)
-
     dataTable = pd.DataFrame(rows, columns=cols)
     #learn to process variable sql queries
     #then query the database...
     return dataTable
+
+def getBoolData():
+    print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+    print(queryString)
+    response = requests.post('http://localhost:8089/api/v2/query/data', data = json.dumps({ 'query' : queryString, 'includeUncertainty' : True }))
+    json_response = response.json()
+    boolean= json_response['colTaint']
+    print(boolean)
+    boolData = []
+    boolRow = []
+    index = -1
+    for i in boolean:
+        for j in i:
+            index +=1
+            if j:
+                boolRow.append(index)
+        if (len(boolRow) > 0):
+            boolData.append(boolRow)
+        boolRow = []
+        index = -1
+    print(boolData)
+    if (len(boolData) < 1):
+        return ["%"]
+    return boolData
+
 
 def makeQuery(filters):
     #assuming queries is a list of lists
@@ -115,27 +138,6 @@ dict = os.system('cat /home/saki/source/web-api-async/vizier-data/.vizierdb/ds/b
 # json_response = response.json()
 #print(json_response)
 #print(json_response['colTaint'])
-#boolean= json_response['colTaint']
-boolean = [[True, False, True, False, False, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False], [False, True, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False], [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False], [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False], [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False], [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False], [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]]
-boolData = []
-boolRow = []
-#make it sorted and make that thing in JS go through both lists??
-#no wait make it go through both lists of same size and for the index at that num,
-#check if it is 1 so for i to last num, if boolData[i] ==1, then color there
-#try with smaller one first first the first 2 rows which is 62 entires so len == 62
-#print(len(boolean[0]))
-#nah just have it as a 2d array and save indicies for each array as it is
-#and keep adding up rowids in JS and get that rowID's list and then color those indicies
-index = -1
-for i in boolean:
-    for j in i:
-        index +=1
-        if j:
-            boolRow.append(index)
-    if (len(boolRow) > 0):
-        boolData.append(boolRow)
-    boolRow = []
-    index = -1
 #print(boolData)
 # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 # print(boolData[32])

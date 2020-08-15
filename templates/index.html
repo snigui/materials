@@ -1,74 +1,48 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Vizier Materials</title>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"/>
-        <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css"/> -->
-        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> -->
-        <link rel="stylesheet" href="{{ url_for('static',    filename='css/template.css') }}">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"/>
+  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css"/> -->
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> -->
+  <link rel="stylesheet" href="{{ url_for('static',    filename='css/template.css') }}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
-        <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-        <!-- <script type="text/javascript" src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script> -->
-        <script src="static/form.js"></script>
-        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script> -->
-  </head>
-  <body>
-    <h1> Wireframe Website</h1>
-    <h2> Materials project</h2>
-    <p>Descriptors</p>
-    <form id="form" action="/add" method="POST">
-      <div class="descriptors">
-        <button class = "addDesc"> Add Descriptor </button>
-        <div><input type="descriptorText" class="add_field" name="descriptor" id="d1"><a href="#" id="d1" class="remove_field">Remove</a></div>
-      </div>
-      <p>Properties</p>
-      <div class="properties">
-        <button class = "addProp"> Add Property </button>
-        <div><input type="propertyText" class="add_field1" name="property" id="p1"><a href="#" id="p1" class="remove_field1">Remove</a></div>
-      </div>
-      <button type="submit" id="submit" class="btn btn-default"> SUBMIT </button>
-    </form>
-<!-- <div id="chart" class="chart">
-  <iframe id="dash-table" src="http://localhost:8050" width=700 height=500></iframe>
-</div> -->
-  <!-- </body>
-  <script type="text/javascript">
-var graphs = {{scatter | safe }};
-var layout = {
-  title: {
-    text:'Correlation of descriptor values',
-    font: {
-      family: 'Courier New, monospace',
-      size: 15
-    },
-    xref: 'paper',
-  },
-  xaxis: {
-    title: {
-      text: 'JSC',
-      font: {
-        family: 'Courier New, monospace',
-        size: 12,
-        color: '#7f7f7f'
-      }
-    },
-  },
-  yaxis: {
-    title: {
-      text: 'JSC/INT_D',
-      font: {
-        family: 'Courier New, monospace',
-        size: 12,
-        color: '#7f7f7f'
-      }
-    }
-  }
-};
-Plotly.newPlot('chart', graphs, layout); -->
-</script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+  <!-- <script type="text/javascript" src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script> -->
+  <script src="static/filters.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+   <body >
+     <h1> Material Science</h1>
+     <p id="filt">Filters</p>
+       <form id="form" action="/add" method="POST" target="_blank">
+         <div class="filters" id="filters" name='{{ colNames }}'>
+           <button class = "addFilter"> Add Filter </button>
+           <div class="dropdown" id='colNames'><input type="filterText0" class="add_field" name="filter0" id="e1"><select id="d1"></select><input type="filterText" class="add_field" name="filter" id="f1"><a href="#" id="f1" class="remove_field">Remove</a></div>
+           </div>
+         <button type="submit" id="submit" class="btn btn-default"> SUBMIT </button>
+       </form>
+     <div style="overflow-y:auto" id="table" name='{{ tabledata }}' >
+       {% for tables in table %}
+           {{ tables|safe }}
+       {% endfor %}
+     <!-- <iframe id="dash-table" src="http://localhost:8050" width=700 height=300></iframe> -->
+     </div>
+
+   </body>
+   <!-- <script type="text/javascript">
+   $(function(){
+    var filters = $("#filters");
+     var colNames = JSON.parse($("#colNames").attr("name"));
+     console.log(colNames);
+
+     for (col in colNames) {
+       var option = $("<option />");
+       option.html(col);
+       option.val(col);
+       filters.append(option);
+     }
+   });
+   </script> -->
 </html>

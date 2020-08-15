@@ -4,15 +4,22 @@ h1, h2          { margin: 0; text-align: center;}
 h1              { border-bottom: 2px solid #eee; text-align: center}
 h2              { font-size: 1.2em; }
 
+.add_field{
+  width: 40px;
+}
 
 #table{
   position: fixed;
-  top: 20%;
-  left: 25%;
+  top: 15%;
+  left: 35%;
   margin-top: -50px;
   margin-left: -100px;
 }
 
+#filt{
+  left:0%;
+  font-size: 1.2em;
+}
 td.highlight {
         font-weight: bold;
         color: black;
@@ -21,8 +28,8 @@ td.highlight {
 
 #chart{
   position: fixed;
-  top: 15%;
-  left: 70%;
+  top: 50%;
+  left: 35%;
   margin-top: -50px;
   margin-left: -100px;
 }

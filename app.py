@@ -29,7 +29,15 @@ def home():
     # print(tabledata)
     # table=[table.to_html(classes='data',header="true")]
     #table=[table.to_html(header="true")], tabledata=tabledata
-    return render_template("index.html")
+    table = makeTable.outputTable([])
+                # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    tabledata = json.dumps(makeTable.getBoolData())
+    print(tabledata)
+    cols = table.columns.tolist()
+    colNames = json.dumps(cols)
+                #table=[table.to_html(header="true")], tabledata=tabledata
+    return render_template("index.html", table=[table.to_html(header="true")], tabledata=tabledata, colNames=colNames)
+
 
 @app.route("/add", methods=["POST", "GET"])
 def add():
@@ -39,21 +47,34 @@ def add():
         data = request.json
         global cache
         cache = data
+        table = makeTable.outputTable(cache["filters"])
+            # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        tabledata = json.dumps(makeTable.getBoolData())
+        cols = table.columns.tolist()
+        print(")()()()()()()()()()()())))(()())")
+        print(cols)
+        colNames = json.dumps(cols)
+            #table=[table.to_html(header="true")], tabledata=tabledata
+        return render_template("output.html", table=[table.to_html(header="true")], tabledata=tabledata, colNames=colNames)
         #print("from POST")
         #print(data)
         #print(cache["descriptors"])
-        return jsonify(data)
+            #table=[table.to_html(header="true")], tabledata=tabledata
     if request.method == "GET":
         #upon clicking submit this stuff will render
+        colNames = []
         print("from GET!")
         print(cache)
-        print(cache["descriptors"])
-        table = makeTable.outputTable(cache["descriptors"])
+        print(cache["filters"])
+        table = makeTable.outputTable(cache["filters"])
             # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        tabledata = json.dumps(makeTable.boolData)
-            # print(tabledata)
+        tabledata = json.dumps(makeTable.getBoolData())
+        cols = table.columns.tolist()
+        print(")()()()()()()()()()()())))(()())")
+        print(cols)
+        colNames = json.dumps(cols)
             #table=[table.to_html(header="true")], tabledata=tabledata
-        return render_template("output.html", table=[table.to_html(header="true")], tabledata=tabledata)
+        return render_template("output.html", table=[table.to_html(header="true")], tabledata=tabledata, colNames=colNames)
     return render_template("output.html")
 
 
