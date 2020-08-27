@@ -16,6 +16,10 @@ h2              { font-size: 1.2em; }
   margin-left: -100px;
 }
 
+#ranges{
+  font-size: 1.2em;
+}
+
 #filt{
   left:0%;
   font-size: 1.2em;

@@ -3,15 +3,11 @@ import requests
 import json
 import os
 import re
-## TODO:
-# change the path of serving the table and plot to /charts or something
-# have the input json and build the sql query out of it
-# plot the tableand plotwith the data from that query
-# next steps:
-# make the table better!
-# make the plot not use csv
 
-queryString = "SELECT * FROM VIEW_230163258"
+
+queryString = "SELECT * FROM VIEW_512252299"
+filter = []
+json_response = {}
 
 class FilterCondition:
 
@@ -53,14 +49,31 @@ def is_number(s: str):
     except ValueError:
         return False
 
+def getCache(cache):
+    global filter
+    filter = cache
 
-def outputTable(cache):
-    #print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    #print(cache)
-    queryString = makeQuery(cache)
+def returnResponse():
+    print("###########################################################", filter)
+    queryString = makeQuery(filter)
+    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
     print(queryString)
     response = requests.post('http://localhost:8089/api/v2/query/data', data = json.dumps({ 'query' : queryString, 'includeUncertainty' : True }))
-    json_response = response.json()
+    resp = response.json()
+    return resp
+
+def outputTable():
+    print("~~~~~~~~~~~~~~~@@@@@@@@@@@@@@@@@@@@@@@@@@@@@~~~~~~~~~~~~~~~~~~~~~~")
+    print(filter)
+    # queryString = makeQuery(filter)
+    # print(queryString)
+    # response = requests.post('http://localhost:8089/api/v2/query/data', data = json.dumps({ 'query' : queryString, 'includeUncertainty' : True }))
+    global json_response
+    # #json_response = {}
+    json_response = returnResponse()
+    # requests.post('https://localhost:8050/get', data = json_response)
+    #print("wiat what huhhhhhhhhhhhhhhhhhhhh ")
+    #print(json_response)
     cols = []
     rows = []
     #col names:
@@ -72,17 +85,14 @@ def outputTable(cache):
         rows.append(row)
         #print(row, "\n", counter)
     dataTable = pd.DataFrame(rows, columns=cols)
+    #print("bruvvvvvvvvvv why???")
     #learn to process variable sql queries
     #then query the database...
     return dataTable
 
 def getBoolData():
-    print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
     print(queryString)
-    response = requests.post('http://localhost:8089/api/v2/query/data', data = json.dumps({ 'query' : queryString, 'includeUncertainty' : True }))
-    json_response = response.json()
     boolean= json_response['colTaint']
-    print(boolean)
     boolData = []
     boolRow = []
     index = -1
@@ -95,7 +105,7 @@ def getBoolData():
             boolData.append(boolRow)
         boolRow = []
         index = -1
-    print(boolData)
+    #print(boolData)
     if (len(boolData) < 1):
         return ["%"]
     return boolData
@@ -103,48 +113,25 @@ def getBoolData():
 
 def makeQuery(filters):
     #assuming queries is a list of lists
-    query = "SELECT * FROM VIEW_230163258"
+    query = queryString
     addOn = ""
     chunks= []
     filterNum = len(filters)
     if (filterNum > 0):
-        query = "SELECT * FROM VIEW_230163258 WHERE "
+        query = queryString + " WHERE "
     else:
         return query
     for filterString in filters:
         filter = filterString.strip().split(',')
         if (len(filter) > 2):
-            #print("%%%%%%%%%%%%%%")
-            #print(filter)
             addOn = stringToRangeCondition(filter[0], filter[1], filter[2])
-            #print(addOn)
             chunks.append(addOn)
         else:
             raise Exception("invalid range input")
-        # print("~~~~~~~~~~~~~~~~~~~~~``")
-        # print(chunks)
     return query + filtersToWhere(chunks)
 
-dict = os.system('cat /home/saki/source/web-api-async/vizier-data/.vizierdb/ds/bd52b624/6d1950e574d04349adeb60f41ec21d50/dataset.json')
+dict = os.system('cat /home/saki/source/web-api-async/vizier-data/.vizierdb/ds/bd52b624/4ea53dcdf4294958be89dfae1c8cb23f/dataset.json')
 
-# template = 'SELECT * FROM VIEW_230163258 WHERE {{name}} BETWEEN {{lower}} AND {{upper}} AND {{name1}} BETWEEN {{lower1}} AND {{upper1}}'
-# data = {"name": "JSC", "lower":1, "upper":10, "name1": "STAT_N_D", "lower1":0, "upper1":215}
-# query, bind_params= j.prepare_query(template,data)
-# print(query)
-# print(bind_params)
-# queryString = makeQuery(filters)
-# print(queryString)
-# response = requests.post('http://localhost:8089/api/v2/query/data', data = json.dumps({ 'query' : queryString, 'includeUncertainty' : True }))
-# json_response = response.json()
-#print(json_response)
-#print(json_response['colTaint'])
-#print(boolData)
-# print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-# print(boolData[32])
-# if (boolData[4] == 1 and boolData[30] == 1 and boolData[31] == 1 and boolData[32] ==1):
-#     print("yeah???????????????????????????????????????????///")
-
-#print(dataTable)
 
 if __name__ == "__main__":
     main()

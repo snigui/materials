@@ -18,9 +18,10 @@
      <p id="filt">Filters</p>
        <form id="form" action="/add" method="POST" target="_blank">
          <div class="filters" id="filters" name='{{ colNames }}'>
+           <p id="ranges">lower <= column name <= upper </p>
            <button class = "addFilter"> Add Filter </button>
            <div class="dropdown" id='colNames'><input type="filterText0" class="add_field" name="filter0" id="e1"><select id="d1"></select><input type="filterText" class="add_field" name="filter" id="f1"><a href="#" id="f1" class="remove_field">Remove</a></div>
-           </div>
+         </div>
          <button type="submit" id="submit" class="btn btn-default"> SUBMIT </button>
        </form>
      <div style="overflow-y:auto" id="table" name='{{ tabledata }}' >
