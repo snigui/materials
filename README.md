@@ -3,19 +3,7 @@ in development process :)
 
 To run:
 
-`cd vizier`
-
-`cd mimir-api`
-
-`sbt run`
-
-`cd ..`
-
-`cd web-api-async`
-
-`vizier`
-
-`cd ..`
+`cd website`
 
 `python app.py`
 
