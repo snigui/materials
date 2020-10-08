@@ -135,8 +135,5 @@ def makeQuery(filters):
             raise Exception("invalid range input")
     return query + filtersToWhere(chunks)
 
-dict = os.system('cat /home/saki/source/web-api-async/vizier-data/.vizierdb/ds/649ed2dd/DATASOURCE_MATERIALS_16443958/dataset.json')
-
-
 if __name__ == "__main__":
     main()
