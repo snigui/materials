@@ -19,4 +19,4 @@ To run:
 
 `python app.py`
 
-and visit localhost:2000
+and visit localhost:3050

@@ -12,79 +12,102 @@ import dash_table
 import plotly.express as px
 import pandas as pd
 from dash.dependencies import Input, Output
+import urllib.parse
 
 
 app = Flask(__name__)
-cache = {}
+cache = {"filters":""}
 df = pd.DataFrame()
+tabledata ={}
 available_indicators = df
+initial= table.makeTable
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 #
 # server = flask.Flask(__name__)
 # plot = dash.Dash(__name__, server=server, url_base_pathname='/get/', external_stylesheets=external_stylesheets)
 
-@app.route("/")
+@app.route("/", methods=["POST", "GET"])
 def home():
-    table.makeTable.getCache([])
-    tables= table.makeTable.outputTable()
-                # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    tabledata = json.dumps(table.makeTable.getBoolData())
-    print(tabledata)
-    cols = tables.columns.tolist()
-    colNames = json.dumps(cols)
-    return render_template("index.html", table=[tables.to_html(header="true")], tabledata=tabledata, colNames=colNames)
-
-
-@app.route("/add", methods=["POST", "GET"])
-def add():
-    #cache["first"] = json.loads(request.json), data=dara
     if request.method == "POST":
         #clicking add and remove will save this input
         data = request.json
         global cache
         cache = data
-        initial = table.makeTable
-        initial.getCache(cache["filters"])
-        print(initial.queryString)
-        global df
-        tables = initial.outputTable()
-        df = tables
-        print(tables)
-        tabledata = json.dumps(table.makeTable.getBoolData())
-        cols = tables.columns.tolist()
-        print(")()()()()()()()()()()())))(()())")
-        colNames = json.dumps(cols)
-        return render_template("output.html", table=[tables.to_html(header="true")], tabledata=tabledata, colNames=colNames)
+        print("hmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
+        print(cache)
+        print("~~~???????????????????????~~~~~")
+        colNames = ['case_name', 'source', 'ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
+       'STAT_CC_D_An', 'STAT_CC_A_Ca', 'STAT_n', 'STAT_n_D', 'STAT_n_A',
+       'ABS_f_D', 'CT_f_conn_D', 'CT_f_conn_D_An', 'CT_f_conn_A_Ca',
+       'DISS_wf10_D', 'DISS_f10_D', 'DISS_f2_D', 'DISS_prob_reach_I', 'STAT_e',
+       'CT_e_conn', 'CT_f_e_conn', 'CT_e_D_An', 'CT_e_A_Ca', 'CT_n_D_adj_An',
+       'CT_f_D_tort1', 'CT_wtort_D', 'CT_n_A_adj_Ca', 'CT_f_A_tort1',
+       'CT_wtort_A', 'int_x', 'int_d', 'int_g', 'int_r', 'NOMALIZED_INTERFACE',
+       'jsc', 'jsc_d', 'int_r_int_d', 'int_d_int_g', 'jsc_int_d']
+        print(data)
+        return render_template("output.html", colNames=json.dumps(colNames))
     if request.method == "GET":
         #upon clicking submit this stuff will render
         colNames = []
         print("from GET!")
         print(cache)
         print(cache["filters"])
-        # requests.post('https://localhost:8050/get', data = cache, verify=False)
-        initial = table.makeTable
-        initial.getCache(cache["filters"])
-        tables = initial.outputTable()
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        tabledata = json.dumps(table.makeTable.getBoolData())
-        cols = tables.columns.tolist()
-        print(cols)
-        colNames = json.dumps(cols)
-        return render_template("output.html", table=[tables.to_html(header="true")], tabledata=tabledata, colNames=colNames)
+        print(df)
+        # cache1 = json.dumps(cache)
+        colNames = ['case_name', 'source', 'ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
+       'STAT_CC_D_An', 'STAT_CC_A_Ca', 'STAT_n', 'STAT_n_D', 'STAT_n_A',
+       'ABS_f_D', 'CT_f_conn_D', 'CT_f_conn_D_An', 'CT_f_conn_A_Ca',
+       'DISS_wf10_D', 'DISS_f10_D', 'DISS_f2_D', 'DISS_prob_reach_I', 'STAT_e',
+       'CT_e_conn', 'CT_f_e_conn', 'CT_e_D_An', 'CT_e_A_Ca', 'CT_n_D_adj_An',
+       'CT_f_D_tort1', 'CT_wtort_D', 'CT_n_A_adj_Ca', 'CT_f_A_tort1',
+       'CT_wtort_A', 'int_x', 'int_d', 'int_g', 'int_r', 'NOMALIZED_INTERFACE',
+       'jsc', 'jsc_d', 'int_r_int_d', 'int_d_int_g', 'jsc_int_d']
+        print(colNames)
+        return render_template("output.html", colNames=json.dumps(colNames))
     return render_template("output.html")
-
-# @app.route("/dash", methods=['GET'])
-# def dash():
-#     return plot.index()
+    # table.makeTable.getCache([])
+    # tables= table.makeTable.outputTable()
+    #             # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    # tabledata = json.dumps(table.makeTable.getBoolData())
+    # print(tabledata)
+    # cols = tables.columns.tolist()
+    # colNames = json.dumps(cols)
+    # cache1 = json.dumps('no filters entered yet')
+    # return render_template("output.html", table=[tables.to_html(header="true")], tabledata=tabledata, colNames=colNames, cache=cache1)
+@app.route("/table", methods=["GET","POST"])
+def table():
+    if request.method=="GET":
+        print("~~~~~~~~~~~~~~~GOT GET~~~~~~~~~~~~~~~~~~~~~")
+        print(cache["filters"])
+        initial.getCache(cache["filters"])
+        global df
+        print(df)
+        tables = initial.outputTable()
+        df = tables
+        tabledata = json.dumps(initial.getBoolData())
+        return render_template("index.html", table=[df.to_html(header="true")], tabledata=tabledata)
+    if request.method=="POST":
+        print("~~~~~~~~~~~~~~~~~~~~GOT POST~~~~~~~~~~~~~~~~~~~~~~~``")
+        print(cache["filters"])
+        initial.getCache(cache["filters"])
+        print(df)
+        tables = initial.outputTable()
+        df = tables
+        tabledata = json.dumps(initial.getBoolData())
+        return render_template("index.html", table=[df.to_html(header="true")], tabledata=tabledata)
+    return render_template("index.html", table=[df.to_html(header="true")], tabledata=tabledata)
+    #serve this as iframe???
 
 plot = dash.Dash(__name__, server=app, url_base_pathname='/dash/',external_stylesheets=external_stylesheets)
-
-print("broooooooooooooooooo hwy ")
-print(df)
-
-colNames = ['ABS_WF_D', 'STAT_CC_D', 'STAT_CC_A', 'STAT_CC_D_AN', 'STAT_CC_A_CA', 'STAT_N', 'STAT_N_D', 'STAT_N_A', 'ABS_F_D', 'CT_F_CONN_D', 'CT_F_CONN_D_AN', 'CT_F_CONN_A_CA', 'DISS_WF10_D', 'DISS_F10_D', 'DISS_F2_D', 'DISS_PROB_REACH_I', 'STAT_E', 'CT_E_CONN', 'CT_F_E_CONN', 'CT_E_D_AN', 'CT_E_A_CA', 'CT_N_D_ADJ_AN', 'CT_F_D_TORT1', 'CT_WTORT_D', 'CT_N_A_ADJ_CA', 'CT_F_A_TORT1', 'CT_WTORT_A', 'INT_X', 'INT_D', 'INT_G', 'INT_R', 'NOMALIZED_INTERFACE', 'JSC', 'JSC_D', 'INT_R_INT_D', 'INT_D_INT_G', 'JSC_INT_D']
-
-
+colNames = ['ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
+       'STAT_CC_D_An', 'STAT_CC_A_Ca', 'STAT_n', 'STAT_n_D', 'STAT_n_A',
+       'ABS_f_D', 'CT_f_conn_D', 'CT_f_conn_D_An', 'CT_f_conn_A_Ca',
+       'DISS_wf10_D', 'DISS_f10_D', 'DISS_f2_D', 'DISS_prob_reach_I', 'STAT_e',
+       'CT_e_conn', 'CT_f_e_conn', 'CT_e_D_An', 'CT_e_A_Ca', 'CT_n_D_adj_An',
+       'CT_f_D_tort1', 'CT_wtort_D', 'CT_n_A_adj_Ca', 'CT_f_A_tort1',
+       'CT_wtort_A', 'int_x', 'int_d', 'int_g', 'int_r', 'NOMALIZED_INTERFACE',
+       'jsc', 'jsc_d', 'int_r_int_d', 'int_d_int_g', 'jsc_int_d']
 plot.layout = html.Div([
     html.Div([
 
@@ -93,7 +116,7 @@ plot.layout = html.Div([
             dcc.Dropdown(
                 id='xaxis-column',
                 options=[{'label': i, 'value': i} for i in colNames],
-                value='STAT_N_A'
+                value='STAT_n_D'
             ),
             dcc.RadioItems(
                  id='xaxis-type',
@@ -107,7 +130,7 @@ plot.layout = html.Div([
             dcc.Dropdown(
                 id='yaxis-column',
                 options=[{'label': i, 'value': i} for i in colNames],
-                value='STAT_N_D'
+                value='STAT_n_A'
             ),
              dcc.RadioItems(
                  id='yaxis-type',
@@ -133,13 +156,13 @@ def update_graph(xaxis_column_name, yaxis_column_name,
                  xaxis_type, yaxis_type):
     dff = df
     print("whyyyyyyyyyyyyyyyyyy")
-    print(dff)
-    print(xaxis_column_name)
+    print(dff.columns)
+    # print(xaxis_column_name)
     return {
         'data': [dict(
             x=dff[xaxis_column_name],
             y=dff[yaxis_column_name],
-            text=dff['STAT_N_D'] ,
+            text=dff['STAT_n_A'] ,
             mode='markers',
             marker={
                 'size': 15,
@@ -166,6 +189,6 @@ def update_graph(xaxis_column_name, yaxis_column_name,
 
 
 if __name__ == "__main__":
-    plot.run_server(host="localhost", port=2000, debug=True)
-    # app.run(host="localhost", port=2000, debug=True)
+    plot.run_server(host="localhost", port=3050, debug=True)
+    # app.run(host="localhost", port=4000, debug=True)
     # plot.run_server(host="localhost", port=2000, debug=True)

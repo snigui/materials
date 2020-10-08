@@ -3,11 +3,13 @@
 $(document).ready(function(){
   var rowID = -1;
   var datatable = JSON.parse($("#table").attr("name"));
+  console.log("############################################")
   console.log(datatable);
   $('.dataframe').DataTable({
   "scrollX": true,
   "scrollY": 200,
   "bFilter": false,
+  "bSort": false,
   "rowCallback": function( row, data ) {
     //this is needed temp for now because i do not have actual uncertainity data, removing this and having full data will fix the coloring
     if (rowID < 1){
@@ -29,17 +31,6 @@ $(document).ready(function(){
         rowIndicies.shift()
       }
     }
-      // if (datatable[index] == 1){
-      //   console.log(index);
-      //   var id = 0;
-      //   if (index >= 30){
-      //     id = Math.floor(index / (30 * rowID));
-      //     console.log("before math");
-      //     console.log(index);
-      //     console.log("after math");
-      //     console.log(id);
-      //   }
-        //$('td', row).eq(4).addClass('highlight');
       }
   });
   // var tabley = $('.dataframe').DataTable();

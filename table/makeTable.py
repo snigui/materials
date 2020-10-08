@@ -3,15 +3,16 @@ import requests
 import json
 import os
 import re
+import urllib.parse
 
 
-queryString = "SELECT * FROM VIEW_512252299"
+queryString = "SELECT * FROM material_science"
 filter = []
 json_response = {}
 
 class FilterCondition:
 
-    def __init__(self, attribute: str):
+    def __init__(self, attribute):
         """A filter condition"""
         self.attribute = attribute
 
@@ -20,29 +21,29 @@ class FilterCondition:
 
 class RangeCondition(FilterCondition):
 
-    def __init__(self, attribute: str, lower: float, upper: float):
+    def __init__(self, attribute, lower, upper):
         self.attribute = attribute
         self.lower = lower
         self.upper = upper
 
     def toSQL(self):
-        return f"{self.attribute} BETWEEN {self.lower} AND {self.upper}"
+        return self.attribute + " BETWEEN " + self.lower +" AND " +self.upper
 
-def filtersToWhere(filters: list):
+def filtersToWhere(filters):
     return " AND ".join([f.toSQL() for f in filters])
 
-def stringToRangeCondition(attribute: str, lower: str, upper: str):
+def stringToRangeCondition(attribute, lower, upper):
     if not (is_number(lower) and is_number(upper) and isIdentifier(attribute)):
         print("yikessssssssssssssssssssssss")
         raise Exception("only numbers allowed as inputs for conditions")
     return RangeCondition(attribute, lower, upper)
 
-def isIdentifier(s: str):
+def isIdentifier(s):
     if re.compile("[A-Za-z_]").match(s):
         return True
     return False
 
-def is_number(s: str):
+def is_number(s):
     try:
         float(s)
         return True
@@ -54,17 +55,21 @@ def getCache(cache):
     filter = cache
 
 def returnResponse():
-    print("###########################################################", filter)
+    # print("###########################################################", filter)
     queryString = makeQuery(filter)
-    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-    print(queryString)
-    response = requests.post('http://localhost:8089/api/v2/query/data', data = json.dumps({ 'query' : queryString, 'includeUncertainty' : True }))
+    # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+    workflow_url = 'https://demo.vizierdb.info/vizier-db/api/v1/projects/9679e97a/branches/9d2942bd/head/sql?query='
+    query = queryString
+    url = 'https://demo.vizierdb.info/auth/public?workflow-url=' + urllib.parse.quote(workflow_url) + urllib.parse.quote(urllib.parse.quote(query))
+    print(url)
+    response = requests.get(url)
     resp = response.json()
+    print("++++++++++++++++++++++++++++++")
     return resp
 
 def outputTable():
-    print("~~~~~~~~~~~~~~~@@@@@@@@@@@@@@@@@@@@@@@@@@@@@~~~~~~~~~~~~~~~~~~~~~~")
-    print(filter)
+    # print("~~~~~~~~~~~~~~~@@@@@@@@@@@@@@@@@@@@@@@@@@@@@~~~~~~~~~~~~~~~~~~~~~~")
+    # print(filter)
     # queryString = makeQuery(filter)
     # print(queryString)
     # response = requests.post('http://localhost:8089/api/v2/query/data', data = json.dumps({ 'query' : queryString, 'includeUncertainty' : True }))
@@ -130,7 +135,7 @@ def makeQuery(filters):
             raise Exception("invalid range input")
     return query + filtersToWhere(chunks)
 
-dict = os.system('cat /home/saki/source/web-api-async/vizier-data/.vizierdb/ds/bd52b624/4ea53dcdf4294958be89dfae1c8cb23f/dataset.json')
+dict = os.system('cat /home/saki/source/web-api-async/vizier-data/.vizierdb/ds/649ed2dd/DATASOURCE_MATERIALS_16443958/dataset.json')
 
 
 if __name__ == "__main__":

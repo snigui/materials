@@ -10,11 +10,20 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
   <!-- <script type="text/javascript" src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script> -->
-  <script src="static/table.js"></script>
+  <script src="static/filters.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
    <body >
      <h1> Materials Science </h1>
+     <p id="filt">Filters</p>
+       <form id="form" action="/add" method="POST" target="_blank">
+         <div class="filters" id="filters" name='{{ colNames }}'>
+           <p id="ranges">lower <= column name <= upper </p>
+           <button class = "addFilter"> Add Filter </button>
+           <div class="dropdown" id='colNames'><input type="filterText0" class="add_field" name="filter0" id="e1"><select id="d1"></select><input type="filterText" class="add_field" name="filter" id="f1"><a href="#" id="f1" class="remove_field">Remove</a></div>
+         </div>
+         <button type="submit" id="submit" class="btn btn-default"> SUBMIT </button>
+       </form>
      <!-- <p>Filters</p> -->
        <!-- <form id="form" action="/add" method="POST" target="_blank">
          <div class="filters" id="filters" name='{{ colNames }}'>
@@ -24,15 +33,13 @@
          <button type="submit" id="submit" class="btn btn-default"> SUBMIT </button>
        </form> -->
      <h2>Charts:</h2>
-     <div style="overflow-y:auto" id="table" name='{{ tabledata }}' >
-       {% for tables in table %}
-           {{ tables|safe }}
-       {% endfor %}
+     <div id="iframeTable">
+       <iframe id="table1" src="/table" width=800 height=500></iframe>
      <!-- <iframe id="dash-table" src="http://localhost:8050" width=700 height=300></iframe> -->
      </div>
      <div id="chart" class="chart">
        <a href="/dashapp/" class="dash-link">
-         <iframe id="dash-table" src="http://localhost:2000/dash" width=800 height=500></iframe>
+         <iframe id="dash-table" src="/dash" width=800 height=500></iframe>
        </a>
      </div>
 
