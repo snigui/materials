@@ -63,7 +63,11 @@ def returnResponse():
     url = 'https://demo.vizierdb.info/auth/public?workflow-url=' + urllib.parse.quote(workflow_url) + urllib.parse.quote(urllib.parse.quote(query))
     print(url)
     response = requests.get(url)
+    resp1 = requests.post(url)
+    print(resp1)
     resp = response.json()
+    print("+______________________+")
+    print(resp)
     print("++++++++++++++++++++++++++++++")
     return resp
 
