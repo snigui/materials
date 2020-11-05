@@ -1,46 +1,98 @@
 var filters = [];
 var finalData = {"filters": filters};
+var f = 1;
+
+
 
 $(document).ready(function(){
+  setTimeout(function () {
+  $('#dash-table').attr('src', $('#dash-table').attr('src'));
+  }, 1600);
   var firstLoad = true;
   var cols= JSON.parse($("#filters").attr("name"));
+  var selectCount = 1;
   console.log(cols);
   if (firstLoad){
     firstLoad = false;
     for(var i = 0; i < cols.length; i++) {
-      $('#colNames select').append('<option value='+cols[i]+'>'+cols[i]+'</option>');
+      $('#colNames1 select').append('<option value='+cols[i]+'>'+cols[i]+'</option>');
     }
   }
   var wrapperF = $(".filters");
-  var wrapperDropdown = $(".dropdown");
   var filter_add = $(".addFilter");
-  var f = 1;
-  $(filter_add).click(function(e){
-    //console.log("add desc clicked!");
-    e.preventDefault();
-    f++;
-    var idee = "f" + f.toString();
-    console.log("~~~~~???????????????~~~~~~~~~~~~~")
-    console.log(cols)
-    $(wrapperF).append('<div class="dropdown" id="colNames' + f.toString() + '"><input type="filterText0" class="add_field" name="filter0" id="e' + f.toString() +'"><select id="d' + f.toString() + '"></select><input type="filterText" class="add_field" name="filter" id=' + idee + '><a href="#" id=' + idee + ' class="remove_field">Remove</a></div>');
-    var newSelector = "colNames" + f.toString() + " select"
-    for(var i = 0; i < cols.length; i++) {
-       $('#'+newSelector).append('<option value='+cols[i]+'>'+cols[i]+'</option>');
-    }
-    var idee1 = "e" + (f - 1).toString();
-    var idee2 = "f" + (f - 1).toString();
-    var idee3 = "d" + (f - 1).toString();
-    //join the item as a big string to append to filters with colname, lower, upper
-    var lower = $("#"+idee1).val();
-    var upper = $("#"+idee2).val();
-    var colFilter = $("#"+idee3).val();
-    var finalFilterString =  colFilter + "," + lower + "," + upper;
-    filters.push(finalFilterString);
-    console.log("++++++++++++");
-    console.log(filters);
-    console.log("++++++++++++");
-    //console.log(data);
-  });
+  // $('.filters').change(function(){
+    $('select[class="dropdown0"]').change(function(){
+      var ided = "d" + f.toString();
+      var iremove = "f" + f.toString();
+      $(this).attr('class', 'dropdown' + selectCount.toString());
+      $(this).append('<a href="#" id=' + iremove + ' class="remove_field">Remove</a>');
+      console.log("which dropdown" + selectCount);
+      selectCount++;
+      f++;
+      var idee = "f" + f.toString();
+      $(wrapperF).append('<div id="colNames' + f.toString() + '"><input type="filterText0" class="add_field" name="filter0" id="e' + f.toString() +'"><select class="dropdown0" id="d' + f.toString() + '"></select><input type="filterText" class="add_field" name="filter" id=' + idee + '></div>');
+      var newSelector = "colNames" + f.toString() + " select"
+      for(var i = 0; i < cols.length; i++) {
+         $('#'+newSelector).append('<option value='+cols[i]+'>'+cols[i]+'</option>');
+      }
+    });
+
+
+// if ($(this).val() != "choose filter"){
+//   console.log("chaneddddddd")
+//   //<a href="#" id=' + idee + ' class="remove_field">Remove</a>
+//   selectCount++;
+//   console.log("dropdown stuff");
+//   f++;
+//   var idee = "f" + f.toString();
+//   $(wrapperF).append('<div id="colNames' + f.toString() + '"><input type="filterText0" class="add_field" name="filter0" id="e' + f.toString() +'"><select name="dropdown" id="d' + f.toString() + '"></select><input type="filterText" class="add_field" name="filter" id=' + idee + '></div>');
+//   var newSelector = "colNames" + f.toString() + " select"
+//   for(var i = 0; i < cols.length; i++) {
+//      $('#'+newSelector).append('<option value='+cols[i]+'>'+cols[i]+'</option>');
+//   }
+//   for(var i = 1; i < f-1; i++) {
+//     var oldSelector = "colNames" + i.toString()
+//     console.log("old ones that need remove" + oldSelector)
+//     var ide = "f" + i.toString();
+//      $('#'+oldSelector).append('<a href="#" id=' + ide + ' class="remove_field">Remove</a>');
+//   }
+// }
+    // console.log("dropdown stuff");
+    // f++;
+    // var idee = "f" + f.toString();
+    // console.log("~~~~~???????????????~~~~~~~~~~~~~")
+    // console.log(cols)
+    // $(wrapperF).append('<div id="colNames' + f.toString() + '"><input type="filterText0" class="add_field" name="filter0" id="e' + f.toString() +'"><select class="clicked" id="d' + f.toString() + '"></select><input type="filterText" class="add_field" name="filter" id=' + idee + '><a href="#" id=' + idee + ' class="remove_field">Remove</a></div>');
+    // var newSelector = "colNames" + f.toString() + " select"
+    // for(var i = 0; i < cols.length; i++) {
+    //    $('#'+newSelector).append('<option value='+cols[i]+'>'+cols[i]+'</option>');
+    // }
+  // $(filter_add).click(function(e){
+  //   //console.log("add desc clicked!");
+  //   e.preventDefault();
+  //   f++;
+  //   var idee = "f" + f.toString();
+  //   console.log("~~~~~???????????????~~~~~~~~~~~~~")
+  //   console.log(cols)
+  //   $(wrapperF).append('<div class="dropdown" id="colNames' + f.toString() + '"><input type="filterText0" class="add_field" name="filter0" id="e' + f.toString() +'"><select id="d' + f.toString() + '"></select><input type="filterText" class="add_field" name="filter" id=' + idee + '><a href="#" id=' + idee + ' class="remove_field">Remove</a></div>');
+  //   var newSelector = "colNames" + f.toString() + " select"
+  //   for(var i = 0; i < cols.length; i++) {
+  //      $('#'+newSelector).append('<option value='+cols[i]+'>'+cols[i]+'</option>');
+  //   }
+  //   // var idee1 = "e" + (f - 1).toString();
+  //   // var idee2 = "f" + (f - 1).toString();
+  //   // var idee3 = "d" + (f - 1).toString();
+  //   // //join the item as a big string to append to filters with colname, lower, upper
+  //   // var lower = $("#"+idee1).val();
+  //   // var upper = $("#"+idee2).val();
+  //   // var colFilter = $("#"+idee3).val();
+  //   // var finalFilterString =  colFilter + "," + lower + "," + upper;
+  //   // filters.push(finalFilterString);
+  //   // console.log("++++++++++++");
+  //   // console.log(filters);
+  //   // console.log("++++++++++++");
+  //   //console.log(data);
+  // });
 
   $(wrapperF).on("click", ".remove_field", function(e){
     //console.log(this.id);
@@ -75,15 +127,32 @@ $(document).ready(function(){
   // });
 
   $('form').on('submit', function(event){
+    filters = []
+    console.log("value of f issssssss" + f)
+    for(var i = 0; i < f+1; i++) {
+      var idee1 = "e" + (i).toString();
+      var idee2 = "f" + (i).toString();
+      var idee3 = "d" + (i).toString();
+      //join the item as a big string to append to filters with colname, lower, upper
+      var lower = $("#"+idee1).val();
+      var upper = $("#"+idee2).val();
+      var colFilter = $("#"+idee3).val();
+      var finalFilterString =  colFilter + "," + lower + "," + upper;
+      filters.push(finalFilterString);
+      console.log("++++++++++++");
+      console.log(filters);
+      console.log("++++++++++++");
+    }
+
     $(this).target = "_blank";
     $.ajax({
       url : '/',
       type: 'POST',
       dataType: 'json',
-      data: JSON.stringify(finalData),
+      data: JSON.stringify({"filters": filters}),
       contentType:"application/json; charset=UTF-8",
       success: function (data) {
-        console.log(JSON.stringify(finalData))
+        console.log(JSON.stringify({"filters": filters}))
         //$("p").text(JSON.stringify(finalData));
         //alert(JSON.stringify(finalData));
       }
@@ -92,7 +161,7 @@ $(document).ready(function(){
       url : '/table',
       type: 'POST',
       dataType: 'json',
-      data: JSON.stringify(finalData),
+      data: JSON.stringify(),
       contentType:"application/json; charset=UTF-8",
       success: function (data) {
         console.log(JSON.stringify(finalData))
@@ -104,7 +173,7 @@ $(document).ready(function(){
     $('#table1').attr('src', $('#table1').attr('src'));
     $('#dash-table').attr('src', $('#dash-table').attr('src'));
     // childWindow = "http://localhost:3050/table";
-    // window.location.reload();
+
     // $.ajax({
     //   url : '/',
     //   type: 'GET',
@@ -121,6 +190,55 @@ $(document).ready(function(){
     // dataTab.draw();
     // window.open('/add', "_blank");
   });
+
+  $('#refresh').click(function(event){
+    let newFilt = {'filters': []};
+    $.ajax({
+      url : '/',
+      type: 'POST',
+      dataType: 'json',
+      data: JSON.stringify(newFilt),
+      contentType:"application/json; charset=UTF-8",
+      success: function (data) {
+        console.log(JSON.stringify(newFilt))
+        //$("p").text(JSON.stringify(finalData));
+        //alert(JSON.stringify(finalData));
+      }
+    })
+    $.ajax({
+      url : '/table',
+      type: 'POST',
+      dataType: 'json',
+      data: JSON.stringify(newFilt),
+      contentType:"application/json; charset=UTF-8",
+      success: function (data) {
+        console.log(JSON.stringify(newFilt))
+        //$("p").text(JSON.stringify(finalData));
+        //alert(JSON.stringify(finalData));
+      }
+    })
+    event.preventDefault();
+    $('#table1').attr('src', $('#table1').attr('src'));
+    $('#dash-table').attr('src', $('#dash-table').attr('src'));
+    location.reload(true);
+  });
+  //
+  // $('#export').click(function(event){
+  //   $.ajax({
+  //     url : '/export',
+  //     type: 'GET',
+  //     dataType: 'json',
+  //     data: JSON.stringify(),
+  //     contentType:"application/json; charset=UTF-8",
+  //     success: function (data) {
+  //       console.log("Export clicked")
+  //       //$("p").text(JSON.stringify(finalData));
+  //       //alert(JSON.stringify(finalData));
+  //     }
+  //   })
+  //   event.preventDefault();
+  //   window.open("/export", '_blank');
+  // });
 
 
     // var rowID = -1;

@@ -1,25 +1,26 @@
 body            { font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;}
 a, h1, h2       { color: #377ba8; }
-h1, h2          { margin: 0; text-align: center;}
+h1, h2          { margin: 0;}
 h1              { border-bottom: 2px solid #eee; text-align: center}
-h2              { font-size: 1.2em; }
+h2              { font-size: 20px; }
+p               { left: 5%;}
 
 .add_field{
   width: 40px;
 }
 
 #table1{
-  position: fixed;
-  top: 15%;
+  position: relative;
+  /* top: 15%;
   left: 35%;
   margin-top: -50px;
-  margin-left: -100px;
+  margin-left: -100px; */
 }
 
-#table{
+#tableinframe{
   position: fixed;
-  top: 10%;
-  left: 13%;
+  top: 15%;
+  left: 7%;
   margin-top: -50px;
   margin-left: -100px;
 }
@@ -29,8 +30,21 @@ h2              { font-size: 1.2em; }
 }
 
 #filt{
-  left:0%;
-  font-size: 1.2em;
+  left:3%;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+#addFilter{
+  width: 50px;
+  height: 25px;
+  text-align: center;
+  font-size: 0.8rem;
+  border-radius: .2rem;
+  color: #6c757d;
+  background-color: transparent;
+  border-color: #6c757d;
+  cursor: pointer;
 }
 td.highlight {
         font-weight: bold;
@@ -39,21 +53,28 @@ td.highlight {
 }
 
 #chart{
-  position: fixed;
-  top: 50%;
+  position: relative;
+  /* top: 50%;
   left: 35%;
   margin-top: -50px;
-  margin-left: -100px;
+  margin-left: -100px; */
+}
+
+div.dataTables_wrapper {
+  width: 1500px;
+  height: 800px;
+  margin: 0 auto;
+  overflow-x: scroll;
+}
+
+.dataTables_scrollBody{
+  max-height: 800px;
 }
 
 #form{
   top: 20%
 }
 
-div.dataTables_wrapper {
-        width: 800px;
-        margin: 0 auto;
-}
 
 table{
   style="width:100%"

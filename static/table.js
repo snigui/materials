@@ -2,14 +2,21 @@
 
 $(document).ready(function(){
   var rowID = -1;
-  var datatable = JSON.parse($("#table").attr("name"));
+  var datatable = JSON.parse($("#tableinframe").attr("name"));
   console.log("############################################")
   console.log(datatable);
   $('.dataframe').DataTable({
+    dom: 'lBfrtip',
+        buttons: [{
+          extend: 'csv',
+          text: 'Export',
+          title: 'datafile'
+        }
+      ],
   "scrollX": true,
-  "scrollY": 200,
+  "sScrollY": 350,
   "bFilter": false,
-  "bSort": false,
+  "bSort": true,
   "rowCallback": function( row, data ) {
     //this is needed temp for now because i do not have actual uncertainity data, removing this and having full data will fix the coloring
     if (rowID < 1){

@@ -9,41 +9,64 @@
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-  <!-- <script type="text/javascript" src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script> -->
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
   <script src="static/filters.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static',    filename='css/dashboard.css') }}">
 </head>
    <body >
-     <h1> UMAMI </h1>
-     <h2> Uncertainty Managed Access to Microstructures Interface </h2>
-     <p id="filt">Filters</p>
-       <form id="form" action="/add" method="POST" target="_blank">
-         <div class="filters" id="filters" name='{{ colNames }}'>
-           <p id="ranges">lower <= column name <= upper </p>
-           <button class = "addFilter"> Add Filter </button>
-           <div class="dropdown" id='colNames'><input type="filterText0" class="add_field" name="filter0" id="e1"><select id="d1"></select><input type="filterText" class="add_field" name="filter" id="f1"><a href="#" id="f1" class="remove_field">Remove</a></div>
-         </div>
-         <button type="submit" id="submit" class="btn btn-default"> SUBMIT </button>
-       </form>
-     <!-- <p>Filters</p> -->
-       <!-- <form id="form" action="/add" method="POST" target="_blank">
-         <div class="filters" id="filters" name='{{ colNames }}'>
-           <button class = "addFilter"> Add Filter </button>
-           <div class="dropdown" id='colNames'><select id="d1"></select><input type="filterText" class="add_field" name="filter" id="f1"><a href="#" id="f1" class="remove_field">Remove</a></div>
+     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Uncertainty Managed Access to Microstructures Interface (UMAMI)</a>
+     </nav>
+
+     <div class="container-fluid">
+       <div class="row">
+         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+           <div class="sidebar-sticky">
+             <h2 id="filt">Filters</h2>
+             <form id="form" action="/add" method="POST" target="_blank">
+               <div class="filters" id="filters" name='{{ colNames }}'>
+                 <p id="ranges">lower <= column name <= upper </p>
+                 <!-- <button id="addFilter" class = "addFilter"> Add </button> -->
+                 <div id='colNames1'><input type="filterText0" class="add_field" name="filter0" id="e1"><select class="dropdown0" id="d1"></select><input type="filterText" class="add_field" name="filter" id="f1"></div>
+               </div>
+               <div class="btn-toolbar mb-2 mb-md-0">
+                 <div class="btn-group mr-2">
+                   <button type="submit" id="submit" class="btn btn-sm btn-outline-secondary">SUBMIT</button>
+                 </div>
+               </div>
+               <div class="btn-toolbar mb-2 mb-md-0">
+                 <div class="btn-group mr-2">
+                   <button type="refresh" id="refresh" class="btn btn-sm btn-outline-secondary">CLEAR ALL</button>
+                 </div>
+               </div>
+               <!-- <div class="btn-toolbar mb-2 mb-md-0">
+                 <div class="btn-group mr-2">
+                   <button type="export" id="export" class="btn btn-sm btn-outline-secondary">EXPORT</button>
+                 </div>
+               </div> -->
+               <!-- <button type="submit" id="submit" class="btn btn-default"> SUBMIT </button>
+             </form>
+             <button type="refresh" id="refresh" class="btn btn-default"> CLEAR ALL </button> -->
            </div>
-         <button type="submit" id="submit" class="btn btn-default"> SUBMIT </button>
-       </form> -->
-     <h2>Charts:</h2>
-     <div id="iframeTable">
-       <iframe id="table1" src="/table" width=800 height=500></iframe>
-     <!-- <iframe id="dash-table" src="http://localhost:8050" width=700 height=300></iframe> -->
-     </div>
-     <div id="chart" class="chart">
+         </nav>
+
+         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+             <div>
+               <iframe id="table1" src="/table" width=1500 height=500></iframe>
+             </div>
+             </div>
+     <div class="table-responsive">
        <a href="/dashapp/" class="dash-link">
-         <iframe id="dash-table" src="/dash" width=800 height=500></iframe>
+         <iframe id="dash-table" src="/dash" width=1500 height=500></iframe>
        </a>
      </div>
 
+ </main>
+</div>
    </body>
    <!-- <script type="text/javascript">
    $(function(){

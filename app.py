@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, jsonify, json, redirect
+from flask import Flask, render_template, request, url_for, jsonify, json, redirect, send_file
 import requests
 import table
 import plotly
@@ -30,12 +30,14 @@ def home():
     if request.method == "POST":
         #clicking add and remove will save this input
         data = request.json
+        print("DID A NEW ONE COME THROUGH OR NAH?????????????????????")
+        print(data)
         global cache
         cache = data
         print("hmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
         print(cache)
         print("~~~???????????????????????~~~~~")
-        colNames = ['case_name', 'source', 'ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
+        colNames = ['choose filter', 'ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
        'STAT_CC_D_An', 'STAT_CC_A_Ca', 'STAT_n', 'STAT_n_D', 'STAT_n_A',
        'ABS_f_D', 'CT_f_conn_D', 'CT_f_conn_D_An', 'CT_f_conn_A_Ca',
        'DISS_wf10_D', 'DISS_f10_D', 'DISS_f2_D', 'DISS_prob_reach_I', 'STAT_e',
@@ -54,7 +56,7 @@ def home():
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         print(df)
         # cache1 = json.dumps(cache)
-        colNames = ['case_name', 'source', 'ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
+        colNames = ['choose filter','ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
        'STAT_CC_D_An', 'STAT_CC_A_Ca', 'STAT_n', 'STAT_n_D', 'STAT_n_A',
        'ABS_f_D', 'CT_f_conn_D', 'CT_f_conn_D_An', 'CT_f_conn_A_Ca',
        'DISS_wf10_D', 'DISS_f10_D', 'DISS_f2_D', 'DISS_prob_reach_I', 'STAT_e',
@@ -98,7 +100,17 @@ def table():
     return render_template("index.html", table=[df.to_html(header="true")], tabledata=tabledata)
     #serve this as iframe???
 
+@app.route("/export", methods=["GET"]) # this is a job for GET, not POST
+def export():
+    print("export clicekd???")
+    df.to_csv("output/datafile.csv")
+    return send_file('output/datafile.csv',
+                     mimetype='text/csv',
+                     attachment_filename='datafile.csv',
+                     as_attachment=True)
+
 plot = dash.Dash(__name__, server=app, url_base_pathname='/dash/',external_stylesheets=external_stylesheets)
+
 colNames = ['ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
        'STAT_CC_D_An', 'STAT_CC_A_Ca', 'STAT_n', 'STAT_n_D', 'STAT_n_A',
        'ABS_f_D', 'CT_f_conn_D', 'CT_f_conn_D_An', 'CT_f_conn_A_Ca',
@@ -108,16 +120,15 @@ colNames = ['ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
        'CT_wtort_A', 'int_x', 'int_d', 'int_g', 'int_r', 'NOMALIZED_INTERFACE',
        'jsc', 'jsc_d', 'int_r_int_d', 'int_d_int_g', 'jsc_int_d']
 plot.layout = html.Div([
-    html.Div([
-
-
-        html.Div([
-            dcc.Dropdown(
-                id='xaxis-column',
-                options=[{'label': i, 'value': i} for i in colNames],
-                value='STAT_n_D'
-            ),
-            dcc.RadioItems(
+                # dcc.Interval(id='dash-table', interval=10000),
+                html.Div([
+                    html.Div([
+                        dcc.Dropdown(
+                            id='xaxis-column',
+                            options=[{'label': i, 'value': i} for i in colNames],
+                            value='STAT_n_D'
+                            ),
+                        dcc.RadioItems(
                  id='xaxis-type',
                  options=[{'label': i, 'value': i} for i in ['Linear', 'Log']],
                  value='Linear',
@@ -125,13 +136,13 @@ plot.layout = html.Div([
              )
         ],style={'width': '48%', 'display': 'inline-block'}),
 
-        html.Div([
-            dcc.Dropdown(
+            html.Div([
+                dcc.Dropdown(
                 id='yaxis-column',
                 options=[{'label': i, 'value': i} for i in colNames],
                 value='STAT_n_A'
             ),
-             dcc.RadioItems(
+                dcc.RadioItems(
                  id='yaxis-type',
                  options=[{'label': i, 'value': i} for i in ['Linear', 'Log']],
                  value='Linear',
@@ -140,54 +151,51 @@ plot.layout = html.Div([
         ],style={'width': '48%', 'float': 'right', 'display': 'inline-block'})
     ]),
 
-    dcc.Graph(id='indicator-graphic'),
+            dcc.Graph(id='indicator-graphic'),
 
 ])
-
 
 @plot.callback(
     Output('indicator-graphic', 'figure'),
     [Input('xaxis-column', 'value'),
-     Input('yaxis-column', 'value'),
-     Input('xaxis-type', 'value'),
-     Input('yaxis-type', 'value')])
+    Input('yaxis-column', 'value'),
+    Input('xaxis-type', 'value'),
+    Input('yaxis-type', 'value')])
 def update_graph(xaxis_column_name, yaxis_column_name,
-                 xaxis_type, yaxis_type):
-    dff = df
-    print("whyyyyyyyyyyyyyyyyyy")
-    print(dff.columns)
-    # print(xaxis_column_name)
-    return {
-        'data': [dict(
-            x=dff[xaxis_column_name],
-            y=dff[yaxis_column_name],
-            text=dff['STAT_n_A'] ,
-            mode='markers',
-            marker={
-                'size': 15,
-                'opacity': 0.5,
-                'line': {'width': 0.5, 'color': 'white'}
-            }
-        )],
-        'layout': dict(
-            xaxis={
-                'title': xaxis_column_name,
+            xaxis_type, yaxis_type):
+        dff = df
+        print("whyyyyyyyyyyyyyyyyyy")
+        print(dff.columns)
+        return {
+                'data': [dict(
+                x=dff[xaxis_column_name],
+                y=dff[yaxis_column_name],
+                text=dff['STAT_n_A'] ,
+                mode='markers',
+                marker={
+                    'size': 15,
+                    'opacity': 0.5,
+                    'line': {'width': 0.5, 'color': 'white'}
+                    }
+                    )],
+                    'layout': dict(
+                    xaxis={
+                    'title': xaxis_column_name,
                 #'type': 'linear'
-                'type': 'linear' if xaxis_type == 'Linear' else 'log'
-            },
-            yaxis={
-                'title': yaxis_column_name,
+                    'type': 'linear' if xaxis_type == 'Linear' else 'log'
+                    },
+                    yaxis={
+                    'title': yaxis_column_name,
                 #'type': 'linear'
-                'type': 'linear' if yaxis_type == 'Linear' else 'log'
-            },
-            margin={'l': 40, 'b': 40, 't': 10, 'r': 0},
-            hovermode='closest'
-        )
-    }
-
+                    'type': 'linear' if yaxis_type == 'Linear' else 'log'
+                    },
+                    margin={'l': 40, 'b': 40, 't': 10, 'r': 0},
+                    hovermode='closest'
+                    )
+                }
 
 
 if __name__ == "__main__":
+    #app.run(host="localhost", port=3050, debug=True)
     plot.run_server(host="localhost", port=3050, debug=True)
-    # app.run(host="localhost", port=4000, debug=True)
     # plot.run_server(host="localhost", port=2000, debug=True)

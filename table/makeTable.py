@@ -63,11 +63,11 @@ def returnResponse():
     url = 'https://demo.vizierdb.info/auth/public?workflow-url=' + urllib.parse.quote(workflow_url) + urllib.parse.quote(urllib.parse.quote(query))
     print(url)
     response = requests.get(url)
-    resp1 = requests.post(url)
-    print(resp1)
+    # resp1 = requests.post(url)
+    # print(resp1)
     resp = response.json()
     print("+______________________+")
-    print(resp)
+    #print(resp)
     print("++++++++++++++++++++++++++++++")
     return resp
 
@@ -131,12 +131,14 @@ def makeQuery(filters):
     else:
         return query
     for filterString in filters:
+        print("from makeTAble filter stuff")
+        print(filterString)
         filter = filterString.strip().split(',')
-        if (len(filter) > 2):
+        if (len(filter) > 2 and filter[0]!= "undefined" and filter[1] != "undefined" and filter[2] != "undefined"):
             addOn = stringToRangeCondition(filter[0], filter[1], filter[2])
             chunks.append(addOn)
         else:
-            raise Exception("invalid range input")
+            continue
     return query + filtersToWhere(chunks)
 
 if __name__ == "__main__":
