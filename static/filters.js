@@ -5,6 +5,31 @@ var f = 1;
 
 
 $(document).ready(function(){
+  let newFilt = {'filters': []};
+  $.ajax({
+    url : '/',
+    type: 'POST',
+    dataType: 'json',
+    data: JSON.stringify(newFilt),
+    contentType:"application/json; charset=UTF-8",
+    success: function (data) {
+      console.log(JSON.stringify(newFilt))
+      //$("p").text(JSON.stringify(finalData));
+      //alert(JSON.stringify(finalData));
+    }
+  })
+  $.ajax({
+    url : '/table',
+    type: 'POST',
+    dataType: 'json',
+    data: JSON.stringify(newFilt),
+    contentType:"application/json; charset=UTF-8",
+    success: function (data) {
+      console.log(JSON.stringify(newFilt))
+      //$("p").text(JSON.stringify(finalData));
+      //alert(JSON.stringify(finalData));
+    }
+  })
   setTimeout(function () {
   $('#dash-table').attr('src', $('#dash-table').attr('src'));
   }, 1600);
@@ -20,22 +45,56 @@ $(document).ready(function(){
   }
   var wrapperF = $(".filters");
   var filter_add = $(".addFilter");
-  // $('.filters').change(function(){
-    $('select[class="dropdown0"]').change(function(){
-      var ided = "d" + f.toString();
-      var iremove = "f" + f.toString();
-      $(this).attr('class', 'dropdown' + selectCount.toString());
-      $(this).append('<a href="#" id=' + iremove + ' class="remove_field">Remove</a>');
-      console.log("which dropdown" + selectCount);
-      selectCount++;
-      f++;
-      var idee = "f" + f.toString();
-      $(wrapperF).append('<div id="colNames' + f.toString() + '"><input type="filterText0" class="add_field" name="filter0" id="e' + f.toString() +'"><select class="dropdown0" id="d' + f.toString() + '"></select><input type="filterText" class="add_field" name="filter" id=' + idee + '></div>');
-      var newSelector = "colNames" + f.toString() + " select"
-      for(var i = 0; i < cols.length; i++) {
-         $('#'+newSelector).append('<option value='+cols[i]+'>'+cols[i]+'</option>');
-      }
-    });
+  $(".filters").on('change', ".dropdown0", function(){
+    console.log("from  funcccccccccccccccccc old f " + f);
+    $(this).attr('class', 'dropdown' + f.toString());
+    f++;
+    var idee = "f" + f.toString();
+    $(wrapperF).append('<div id="colNames' + f.toString() + '"><input type="filterText0" class="add_field" name="filter0" id="e' + f.toString() +'"><select class="dropdown0" id="d' + f.toString() + '"></select><input type="filterText" class="add_field" name="filter" id=' + idee + '><a href="#" id=' + idee + ' class="remove_field">Remove</a></div>');
+    var newSelector = "colNames" + f.toString() + " select"
+    for(var i = 0; i < cols.length; i++) {
+       $('#'+newSelector).append('<option value='+cols[i]+'>'+cols[i]+'</option>');
+    }
+  });
+  // $("select[class=dropdown0]").on('change',function(){
+  //   console.log("from  funcccccccccccccccccc " + $(this).className)
+  //   var ided = "d" + f.toString();
+  //   var iremove = "f" + f.toString();
+  //   $(this).attr('class', 'dropdown' + selectCount.toString());
+  //   $('#colNames' + f.toString()).append('<a href="#" id=' + iremove + ' class="remove_field">Remove</a>');
+  //   console.log("which dropdown" + selectCount);
+  //   selectCount++;
+  //   f++;
+  //   var idee = "f" + f.toString();
+  //   $(wrapperF).append('<div id="colNames' + f.toString() + '"><input type="filterText0" class="add_field" name="filter0" id="e' + f.toString() +'"><select class="dropdown0" id="d' + f.toString() + '"></select><input type="filterText" class="add_field" name="filter" id=' + idee + '></div>');
+  //   var newSelector = "colNames" + f.toString() + " select"
+  //   for(var i = 0; i < cols.length; i++) {
+  //      $('#'+newSelector).append('<option value='+cols[i]+'>'+cols[i]+'</option>');
+  //   }
+  // });
+  // $(".filters").click(function(){
+  //   $('select[class="dropdown0"]').on('change', function(){
+  //   console.log("gmmmmmmmmmmmmmmmmmmmmmmmm" + $(this).html());
+  //   var ided = "d" + f.toString();
+  //   var iremove = "f" + f.toString();
+  //   $(this).attr('class', 'dropdown' + selectCount.toString());
+  //   $('#colNames' + f.toString()).append('<a href="#" id=' + iremove + ' class="remove_field">Remove</a>');
+  //   console.log("which dropdown" + selectCount);
+  //   selectCount++;
+  //   f++;
+  //   var idee = "f" + f.toString();
+  //   $(wrapperF).append('<div id="colNames' + f.toString() + '"><input type="filterText0" class="add_field" name="filter0" id="e' + f.toString() +'"><select class="dropdown0" id="d' + f.toString() + '"></select><input type="filterText" class="add_field" name="filter" id=' + idee + '></div>');
+  //   var newSelector = "colNames" + f.toString() + " select"
+  //   for(var i = 0; i < cols.length; i++) {
+  //      $('#'+newSelector).append('<option value='+cols[i]+'>'+cols[i]+'</option>');
+  //   }
+  // });
+// });
+
+//have call back function in js for when a change is done in
+//filters div and in the callback, loop through each div and check if dropdown0 has a value that isnt choose filter
+//if so, then append a new dropdown, and make it's name dropdown 0, the other dropdown names dont really matter
+//this is the new drop down
 
 
 // if ($(this).val() != "choose filter"){
@@ -95,6 +154,10 @@ $(document).ready(function(){
   // });
 
   $(wrapperF).on("click", ".remove_field", function(e){
+    if (f == 2){
+      console.log("last one!!!!!!!!");
+      $('#colNames1').find("select").attr('class', 'dropdown0');
+    }
     //console.log(this.id);
     var onlyNum = this.id.toString().slice(-1);
     var index = onlyNum -1;
@@ -137,8 +200,10 @@ $(document).ready(function(){
       var lower = $("#"+idee1).val();
       var upper = $("#"+idee2).val();
       var colFilter = $("#"+idee3).val();
-      var finalFilterString =  colFilter + "," + lower + "," + upper;
-      filters.push(finalFilterString);
+      if (colFilter != "choose"){
+        var finalFilterString =  colFilter + "," + lower + "," + upper;
+        filters.push(finalFilterString);
+      }
       console.log("++++++++++++");
       console.log(filters);
       console.log("++++++++++++");
