@@ -51,6 +51,7 @@ def is_number(s):
         return False
 
 def getCache(cache):
+    print(" from make cache ", cache)
     global filter
     filter = cache
 

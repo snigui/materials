@@ -6,30 +6,37 @@ var f = 1;
 
 $(document).ready(function(){
   let newFilt = {'filters': []};
-  $.ajax({
-    url : '/',
-    type: 'POST',
-    dataType: 'json',
-    data: JSON.stringify(newFilt),
-    contentType:"application/json; charset=UTF-8",
-    success: function (data) {
-      console.log(JSON.stringify(newFilt))
-      //$("p").text(JSON.stringify(finalData));
-      //alert(JSON.stringify(finalData));
-    }
-  })
-  $.ajax({
-    url : '/table',
-    type: 'POST',
-    dataType: 'json',
-    data: JSON.stringify(newFilt),
-    contentType:"application/json; charset=UTF-8",
-    success: function (data) {
-      console.log(JSON.stringify(newFilt))
-      //$("p").text(JSON.stringify(finalData));
-      //alert(JSON.stringify(finalData));
-    }
-  })
+  window.onload = function(){
+    // setTimeout(function () {
+    // $('#table1').attr('src', $('#table1').attr('src'));
+    // }, 500);
+    let newFilt = {'filters': []};
+    $.ajax({
+      url : '/',
+      type: 'POST',
+      dataType: 'json',
+      data: JSON.stringify(newFilt),
+      contentType:"application/json; charset=UTF-8",
+      success: function (data) {
+        console.log(JSON.stringify(newFilt))
+        //$("p").text(JSON.stringify(finalData));
+        //alert(JSON.stringify(finalData));
+      }
+    })
+    $.ajax({
+      url : '/table',
+      type: 'POST',
+      dataType: 'json',
+      data: JSON.stringify(newFilt),
+      contentType:"application/json; charset=UTF-8",
+      success: function (data) {
+        console.log(JSON.stringify(newFilt))
+        //$("p").text(JSON.stringify(finalData));
+        //alert(JSON.stringify(finalData));
+      }
+    })
+    event.preventDefault();
+};
   setTimeout(function () {
   $('#dash-table').attr('src', $('#dash-table').attr('src'));
   }, 1600);

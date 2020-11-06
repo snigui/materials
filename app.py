@@ -30,11 +30,9 @@ def home():
     if request.method == "POST":
         #clicking add and remove will save this input
         data = request.json
-        print("DID A NEW ONE COME THROUGH OR NAH?????????????????????")
         print(data)
         global cache
         cache = data
-        print("hmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
         print(cache)
         print("~~~???????????????????????~~~~~")
         colNames = ['choose filter', 'ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
@@ -76,11 +74,13 @@ def home():
     # colNames = json.dumps(cols)
     # cache1 = json.dumps('no filters entered yet')
     # return render_template("output.html", table=[tables.to_html(header="true")], tabledata=tabledata, colNames=colNames, cache=cache1)
-@app.route("/table", methods=["GET","POST"])
+@app.route("/table", methods=["POST","GET"])
 def table():
     if request.method=="GET":
+        global cache
+        # cache = data
         print("~~~~~~~~~~~~~~~GOT GET~~~~~~~~~~~~~~~~~~~~~")
-        print(cache["filters"])
+        # print(cache["filters"])
         initial.getCache(cache["filters"])
         global df
         print(df)
@@ -89,6 +89,10 @@ def table():
         tabledata = json.dumps(initial.getBoolData())
         return render_template("index.html", table=[df.to_html(header="true")], tabledata=tabledata)
     if request.method=="POST":
+        data = request.json
+        cache = data
+        print("DID A NEW ONE COME THROUGH OR NAH?????????????????????")
+        print(data)
         print("~~~~~~~~~~~~~~~~~~~~GOT POST~~~~~~~~~~~~~~~~~~~~~~~``")
         print(cache["filters"])
         initial.getCache(cache["filters"])
