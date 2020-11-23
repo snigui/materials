@@ -26,11 +26,12 @@
          <nav class="col-md-2 d-none d-md-block bg-light sidebar">
            <div class="sidebar-sticky">
              <h2 id="filt">Filters</h2>
-             <form id="form" action="/add" method="POST" target="_blank">
+             <form id="form" action="/table" method="GET" target="_blank">
                <div class="filters" id="filters" name='{{ colNames }}'>
                  <p id="ranges">lower <= column name <= upper </p>
                  <!-- <button id="addFilter" class = "addFilter"> Add </button> -->
-                 <div id='colNames1'><input type="filterText0" class="add_field" name="filter0" id="e1"><select class="dropdown0" id="d1"></select><input type="filterText" class="add_field" name="filter" id="f1"></div>
+                 <!-- <input type="filterText0" class="add_field" name="filter0" id="e1" <input type="filterText" class="add_field" name="filter" id="f1">>-->
+                 <div id='colNames1'><select class="dropdown0" id="d1"></select></div>
                </div>
                <div class="btn-toolbar mb-2 mb-md-0">
                  <div class="btn-group mr-2">

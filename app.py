@@ -17,7 +17,6 @@ from dash.dependencies import Input, Output
 app = Flask(__name__)
 cache = {"filters":""}
 df = pd.DataFrame()
-tabledata ={}
 available_indicators = df
 initial= table.makeTable
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -25,34 +24,53 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 # server = flask.Flask(__name__)
 # plot = dash.Dash(__name__, server=server, url_base_pathname='/get/', external_stylesheets=external_stylesheets)
 
-@app.route("/", methods=["POST", "GET"])
+@app.route("/", methods=["GET"])
 def home():
-    if request.method == "POST":
-        #clicking add and remove will save this input
-        data = request.json
-        print(data)
-        global cache
-        cache = data
-        print(cache)
-        print("~~~???????????????????????~~~~~")
-        colNames = ['choose filter', 'ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
-       'STAT_CC_D_An', 'STAT_CC_A_Ca', 'STAT_n', 'STAT_n_D', 'STAT_n_A',
-       'ABS_f_D', 'CT_f_conn_D', 'CT_f_conn_D_An', 'CT_f_conn_A_Ca',
-       'DISS_wf10_D', 'DISS_f10_D', 'DISS_f2_D', 'DISS_prob_reach_I', 'STAT_e',
-       'CT_e_conn', 'CT_f_e_conn', 'CT_e_D_An', 'CT_e_A_Ca', 'CT_n_D_adj_An',
-       'CT_f_D_tort1', 'CT_wtort_D', 'CT_n_A_adj_Ca', 'CT_f_A_tort1',
-       'CT_wtort_A', 'int_x', 'int_d', 'int_g', 'int_r', 'NOMALIZED_INTERFACE',
-       'jsc', 'jsc_d', 'int_r_int_d', 'int_d_int_g', 'jsc_int_d']
-        print(data)
-        return render_template("output.html", colNames=json.dumps(colNames))
+    global cache
+    tabledata = {}
+    initial.getCache(cache["filters"])
+    tables = initial.outputTable()
+    global df
+    df = tables
+    # if request.method == "POST":
+    #     #clicking add and remove will save this input
+    #     data = request.json
+    #     print(data)
+    #     #print(cache)
+    #     cache = data
+    #     initial.getCache(cache["filters"])
+    #     tables = initial.outputTable()
+    #     df = tables
+    #     print("teh heckkkkkkk")
+    #     print(df)
+    #     colNames = ['choose filter', 'ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
+    #    'STAT_CC_D_An', 'STAT_CC_A_Ca', 'STAT_n', 'STAT_n_D', 'STAT_n_A',
+    #    'ABS_f_D', 'CT_f_conn_D', 'CT_f_conn_D_An', 'CT_f_conn_A_Ca',
+    #    'DISS_wf10_D', 'DISS_f10_D', 'DISS_f2_D', 'DISS_prob_reach_I', 'STAT_e',
+    #    'CT_e_conn', 'CT_f_e_conn', 'CT_e_D_An', 'CT_e_A_Ca', 'CT_n_D_adj_An',
+    #    'CT_f_D_tort1', 'CT_wtort_D', 'CT_n_A_adj_Ca', 'CT_f_A_tort1',
+    #    'CT_wtort_A', 'int_x', 'int_d', 'int_g', 'int_r', 'NOMALIZED_INTERFACE',
+    #    'jsc', 'jsc_d', 'int_r_int_d', 'int_d_int_g', 'jsc_int_d']
+    #     print(data)
+    #     return render_template("output.html", colNames=json.dumps(colNames))
     if request.method == "GET":
         #upon clicking submit this stuff will render
         colNames = []
         print("from GET!")
-        print(cache)
-        print(cache["filters"])
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         print(df)
+        print(request.args)
+        data = request.args
+        filters = []
+        for i in data:
+            stringy = i + "," + data[i]
+            filters.append(stringy)
+        print("from inside ")
+        cache = {"filters": filters}
+        print(cache)
+        initial.getCache(cache["filters"])
+        tables = initial.outputTable()
+        df = tables
         # cache1 = json.dumps(cache)
         colNames = ['choose filter','ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
        'STAT_CC_D_An', 'STAT_CC_A_Ca', 'STAT_n', 'STAT_n_D', 'STAT_n_A',
@@ -74,31 +92,41 @@ def home():
     # colNames = json.dumps(cols)
     # cache1 = json.dumps('no filters entered yet')
     # return render_template("output.html", table=[tables.to_html(header="true")], tabledata=tabledata, colNames=colNames, cache=cache1)
-@app.route("/table", methods=["POST","GET"])
+@app.route("/table", methods=["GET"])
 def table():
+    global cache
+    global df
+    tabledata = {}
+    # if request.method=="POST":
+    #     data = request.json
+    #     cache = data
+    #     print("DID A NEW ONE COME THROUGH OR NAH?????????????????????")
+    #     print(data)
+    #     print("~~~~~~~~~~~~~~~~~~~~GOT POST~~~~~~~~~~~~~~~~~~~~~~~``")
+    #     print(cache["filters"])
+    #     initial.getCache(cache["filters"])
+    #     tables = initial.outputTable()
+    #     df = tables
+    #     insideTable = tables
+    #     print(df)
+    #     tabledata = json.dumps(initial.getBoolData())
+    #     return render_template("index.html", table=[df.to_html(header="true")], tabledata=tabledata)
     if request.method=="GET":
-        global cache
-        # cache = data
+        #have filters in the URL that GET can access
+        #request.args.GET
         print("~~~~~~~~~~~~~~~GOT GET~~~~~~~~~~~~~~~~~~~~~")
-        # print(cache["filters"])
-        initial.getCache(cache["filters"])
-        global df
-        print(df)
-        tables = initial.outputTable()
-        df = tables
-        tabledata = json.dumps(initial.getBoolData())
-        return render_template("index.html", table=[df.to_html(header="true")], tabledata=tabledata)
-    if request.method=="POST":
-        data = request.json
-        cache = data
-        print("DID A NEW ONE COME THROUGH OR NAH?????????????????????")
-        print(data)
-        print("~~~~~~~~~~~~~~~~~~~~GOT POST~~~~~~~~~~~~~~~~~~~~~~~``")
+        # print(request.args)
+        # data = request.args
+        # filters = []
+        # for i in data:
+        #     stringy = i + "," + data[i]
+        #     filters.append(stringy)
+        print("from inside ")
         print(cache["filters"])
         initial.getCache(cache["filters"])
-        print(df)
         tables = initial.outputTable()
         df = tables
+        print(df)
         tabledata = json.dumps(initial.getBoolData())
         return render_template("index.html", table=[df.to_html(header="true")], tabledata=tabledata)
     return render_template("index.html", table=[df.to_html(header="true")], tabledata=tabledata)
@@ -201,5 +229,5 @@ def update_graph(xaxis_column_name, yaxis_column_name,
 
 if __name__ == "__main__":
     #app.run(host="localhost", port=3050, debug=True)
-    plot.run_server(host="localhost", port=3050, debug=True)
+    plot.run_server(host="localhost", port=3050, threaded=True, debug=True)
     # plot.run_server(host="localhost", port=2000, debug=True)

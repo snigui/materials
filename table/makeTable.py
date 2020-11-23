@@ -5,7 +5,7 @@ import os
 import re
 import urllib.parse
 
-
+#filter format: filter name, lower, upper
 queryString = "SELECT * FROM material_science"
 filter = []
 json_response = {}
@@ -58,7 +58,8 @@ def getCache(cache):
 def returnResponse():
     # print("###########################################################", filter)
     queryString = makeQuery(filter)
-    # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+    print(queryString)
     workflow_url = 'https://demo.vizierdb.info/vizier-db/api/v1/projects/9679e97a/branches/9d2942bd/head/sql?query='
     query = queryString
     url = 'https://demo.vizierdb.info/auth/public?workflow-url=' + urllib.parse.quote(workflow_url) + urllib.parse.quote(urllib.parse.quote(query))

@@ -1,45 +1,38 @@
 var filters = [];
 var finalData = {"filters": filters};
-var f = 1;
+var f = 0;
 
 
 
 $(document).ready(function(){
-  let newFilt = {'filters': []};
-  window.onload = function(){
-    // setTimeout(function () {
-    // $('#table1').attr('src', $('#table1').attr('src'));
-    // }, 500);
-    let newFilt = {'filters': []};
-    $.ajax({
-      url : '/',
-      type: 'POST',
-      dataType: 'json',
-      data: JSON.stringify(newFilt),
-      contentType:"application/json; charset=UTF-8",
-      success: function (data) {
-        console.log(JSON.stringify(newFilt))
-        //$("p").text(JSON.stringify(finalData));
-        //alert(JSON.stringify(finalData));
-      }
-    })
-    $.ajax({
-      url : '/table',
-      type: 'POST',
-      dataType: 'json',
-      data: JSON.stringify(newFilt),
-      contentType:"application/json; charset=UTF-8",
-      success: function (data) {
-        console.log(JSON.stringify(newFilt))
-        //$("p").text(JSON.stringify(finalData));
-        //alert(JSON.stringify(finalData));
-      }
-    })
-    event.preventDefault();
-};
-  setTimeout(function () {
-  $('#dash-table').attr('src', $('#dash-table').attr('src'));
-  }, 1600);
+  //
+  // setTimeout(function () {
+  // $('#dash-table').attr('src', $('#dash-table').attr('src'));
+  // }, 1600);
+  // $.ajax({
+  //   url : '/table',
+  //   type: 'POST',
+  //   dataType: 'json',
+  //   data: JSON.stringify({"filters": ""}),
+  //   contentType:"application/json; charset=UTF-8",
+  //   success: function (data) {
+  //     console.log(JSON.stringify(finalData))
+  //     //$("p").text(JSON.stringify(finalData));
+  //     //alert(JSON.stringify(finalData));
+  //   }
+  // });
+  // $.ajax({
+  //   url : '/',
+  //   type: 'POST',
+  //   dataType: 'json',
+  //   data: JSON.stringify({"filters": ""}),
+  //   contentType:"application/json; charset=UTF-8",
+  //   success: function (data) {
+  //     console.log(JSON.stringify(finalData))
+  //     //$("p").text(JSON.stringify(finalData));
+  //     //alert(JSON.stringify(finalData));
+  //   }
+  // });
   var firstLoad = true;
   var cols= JSON.parse($("#filters").attr("name"));
   var selectCount = 1;
@@ -53,15 +46,21 @@ $(document).ready(function(){
   var wrapperF = $(".filters");
   var filter_add = $(".addFilter");
   $(".filters").on('change', ".dropdown0", function(){
+    var stringFilter = $(this).val();
+    console.log("the filter changed to is ssssssssss " + stringFilter);
     console.log("from  funcccccccccccccccccc old f " + f);
-    $(this).attr('class', 'dropdown' + f.toString());
+    $(this).val('choose');
+    //$(this).val("choose filter");
+    //$(this).attr('class', 'dropdown' + f.toString());
     f++;
     var idee = "f" + f.toString();
-    $(wrapperF).append('<div id="colNames' + f.toString() + '"><input type="filterText0" class="add_field" name="filter0" id="e' + f.toString() +'"><select class="dropdown0" id="d' + f.toString() + '"></select><input type="filterText" class="add_field" name="filter" id=' + idee + '><a href="#" id=' + idee + ' class="remove_field">Remove</a></div>');
-    var newSelector = "colNames" + f.toString() + " select"
-    for(var i = 0; i < cols.length; i++) {
-       $('#'+newSelector).append('<option value='+cols[i]+'>'+cols[i]+'</option>');
-    }
+    $(wrapperF).append('<div id="colNames' + f.toString() + '"><input type="filterText0" class="add_field" name="lower" id="e' + f.toString() +'"><select class="dropdown' + f.toString() + '" id="d' + f.toString() + '"></select><input type="filterText" class="add_field" name="upper" id=' + idee + '><a href="#" id=' + idee + ' class="remove_field">Remove</a></div>');
+    var newSelector = "colNames" + f.toString() + " select";
+    $('#'+newSelector).append('<option value='+stringFilter+' name=filter'+ '>'+stringFilter+'</option>');
+    $('.dropdown' + f.toString()).val(stringFilter);
+    // for(var i = 0; i < cols.length; i++) {
+    //    $('#'+newSelector).append('<option value='+cols[i]+'>'+cols[i]+'</option>');
+    // }
   });
   // $("select[class=dropdown0]").on('change',function(){
   //   console.log("from  funcccccccccccccccccc " + $(this).className)
@@ -165,7 +164,7 @@ $(document).ready(function(){
       console.log("last one!!!!!!!!");
       $('#colNames1').find("select").attr('class', 'dropdown0');
     }
-    //console.log(this.id);
+    console.log("from removeeeeeeeeeee " + this.id);
     var onlyNum = this.id.toString().slice(-1);
     var index = onlyNum -1;
     //console.log("~~~~~~~~~~~~~~~~~~~~`` remove of desc");
@@ -197,44 +196,67 @@ $(document).ready(function(){
   // });
 
   $('form').on('submit', function(event){
-    filters = []
-    console.log("value of f issssssss" + f)
-    for(var i = 0; i < f+1; i++) {
+    // filters = []
+    // console.log("value of f issssssss" + f)
+    var queryString = "";
+    for(var i = 1; i <= f; i++) {
+      console.log("wthattt " + i);
       var idee1 = "e" + (i).toString();
       var idee2 = "f" + (i).toString();
-      var idee3 = "d" + (i).toString();
+      var idee3 = "dropdown" + (i).toString();
       //join the item as a big string to append to filters with colname, lower, upper
       var lower = $("#"+idee1).val();
       var upper = $("#"+idee2).val();
-      var colFilter = $("#"+idee3).val();
+      var colFilter = $("."+idee3).val();
+      console.log("bruhhhhhhhhhhhh " + colFilter);
       if (colFilter != "choose"){
-        var finalFilterString =  colFilter + "," + lower + "," + upper;
-        filters.push(finalFilterString);
+        var finalFilterString =  colFilter + "=" + lower + "," + upper;
+        queryString+="&"+finalFilterString;
+        //filters.push(finalFilterString);
       }
-      console.log("++++++++++++");
-      console.log(filters);
-      console.log("++++++++++++");
+      //console.log("++++++++++++");
+      //console.log(filters);
     }
-
-    $(this).target = "_blank";
+    console.log("++++++++++++");
+    console.log(queryString);
+    // const formData = new FormData(event.target);
+    // formData.forEach((value,key) => {
+    //   console.log(key+" "+value)
+    // });
+    // console.log("hmm " + formData);
+    //
+    // $(this).target = "_blank";
+    // $.ajax(
+    //   url : '/',
+    //   type: 'POST',
+    //   dataType: 'json',
+    //   data: JSON.stringify({"filters": filters}),
+    //   contentType:"application/json; charset=UTF-8",
+    //   success: function (data) {
+    //     console.log(JSON.stringify({"filters": filters}))
+    //     //$("p").text(JSON.stringify(finalData));
+    //     //alert(JSON.stringify(finalData));
+    //   }
+    // })
+    var finalQuery = queryString.substring(1);
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    console.log(finalQuery);
     $.ajax({
-      url : '/',
-      type: 'POST',
-      dataType: 'json',
-      data: JSON.stringify({"filters": filters}),
-      contentType:"application/json; charset=UTF-8",
+      url : '/table',
+      type: 'GET',
+      data: finalQuery,
+      // contentType:"application/json; charset=UTF-8",
       success: function (data) {
-        console.log(JSON.stringify({"filters": filters}))
+        console.log(JSON.stringify(finalData))
         //$("p").text(JSON.stringify(finalData));
         //alert(JSON.stringify(finalData));
       }
     })
     $.ajax({
-      url : '/table',
-      type: 'POST',
-      dataType: 'json',
-      data: JSON.stringify(),
-      contentType:"application/json; charset=UTF-8",
+      url : '/',
+      type: 'GET',
+      data: finalQuery,
+      // contentType:"application/json; charset=UTF-8",
       success: function (data) {
         console.log(JSON.stringify(finalData))
         //$("p").text(JSON.stringify(finalData));
@@ -242,7 +264,9 @@ $(document).ready(function(){
       }
     })
     event.preventDefault();
-    $('#table1').attr('src', $('#table1').attr('src'));
+    var source = 'http://localhost:3050/table?' + finalQuery;
+    $('#table1').attr('src', source);
+    //instead of current, add the filters in the URL
     $('#dash-table').attr('src', $('#dash-table').attr('src'));
     // childWindow = "http://localhost:3050/table";
 
@@ -267,10 +291,8 @@ $(document).ready(function(){
     let newFilt = {'filters': []};
     $.ajax({
       url : '/',
-      type: 'POST',
-      dataType: 'json',
-      data: JSON.stringify(newFilt),
-      contentType:"application/json; charset=UTF-8",
+      type: 'GET',
+      data: "",
       success: function (data) {
         console.log(JSON.stringify(newFilt))
         //$("p").text(JSON.stringify(finalData));
@@ -279,9 +301,9 @@ $(document).ready(function(){
     })
     $.ajax({
       url : '/table',
-      type: 'POST',
+      type: 'GET',
       dataType: 'json',
-      data: JSON.stringify(newFilt),
+      data: "",
       contentType:"application/json; charset=UTF-8",
       success: function (data) {
         console.log(JSON.stringify(newFilt))
