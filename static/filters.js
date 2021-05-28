@@ -219,72 +219,44 @@ $(document).ready(function(){
     }
     console.log("++++++++++++");
     console.log(queryString);
-    // const formData = new FormData(event.target);
-    // formData.forEach((value,key) => {
-    //   console.log(key+" "+value)
-    // });
-    // console.log("hmm " + formData);
-    //
-    // $(this).target = "_blank";
-    // $.ajax(
-    //   url : '/',
-    //   type: 'POST',
-    //   dataType: 'json',
-    //   data: JSON.stringify({"filters": filters}),
-    //   contentType:"application/json; charset=UTF-8",
-    //   success: function (data) {
-    //     console.log(JSON.stringify({"filters": filters}))
-    //     //$("p").text(JSON.stringify(finalData));
-    //     //alert(JSON.stringify(finalData));
-    //   }
-    // })
+
     var finalQuery = queryString.substring(1);
     console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     console.log(finalQuery);
-    $.ajax({
-      url : '/table',
-      type: 'GET',
-      data: finalQuery,
+    if (lower == '' || upper == ''){
+      alert("Filter ranges can only be numbers! Please re-enter valid filters and submit");
+      event.preventDefault();
+    }
+    else{
+      $.ajax({
+        url : '/table',
+        type: 'GET',
+        data: finalQuery,
       // contentType:"application/json; charset=UTF-8",
-      success: function (data) {
+        success: function (data) {
         console.log(JSON.stringify(finalData))
         //$("p").text(JSON.stringify(finalData));
         //alert(JSON.stringify(finalData));
       }
     })
-    $.ajax({
-      url : '/',
-      type: 'GET',
-      data: finalQuery,
+      $.ajax({
+        url : '/',
+        type: 'GET',
+        data: finalQuery,
       // contentType:"application/json; charset=UTF-8",
-      success: function (data) {
-        console.log(JSON.stringify(finalData))
+        success: function (data) {
+            console.log(JSON.stringify(finalData))
         //$("p").text(JSON.stringify(finalData));
         //alert(JSON.stringify(finalData));
-      }
-    })
-    event.preventDefault();
-    var source = 'http://localhost:3050/table?' + finalQuery;
-    $('#table1').attr('src', source);
-    //instead of current, add the filters in the URL
-    $('#dash-table').attr('src', $('#dash-table').attr('src'));
-    // childWindow = "http://localhost:3050/table";
+          }
+        })
+        event.preventDefault();
+        var source = '/table?' + finalQuery;
 
-    // $.ajax({
-    //   url : '/',
-    //   type: 'GET',
-    //   dataType: 'json',
-    //   contentType:"application/json; charset=UTF-8",
-    //   success: function (data) {
-    //     console.log('from jquery get request');
-    //     console.log(data);
-    //     //$("p").text(JSON.stringify(finalData));
-    //     //alert(JSON.stringify(finalData));
-    //   }
-    // })
-    // dataTab.destroy();
-    // dataTab.draw();
-    // window.open('/add', "_blank");
+        $('#table1').attr('src', source);
+    //instead of current, add the filters in the URL
+        $('#dash-table').attr('src', $('#dash-table').attr('src'));
+    }
   });
 
   $('#refresh').click(function(event){

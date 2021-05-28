@@ -4,6 +4,8 @@ import json
 import os
 import re
 import urllib.parse
+from requests.auth import HTTPBasicAuth
+
 
 #filter format: filter name, lower, upper
 queryString = "SELECT * FROM material_science"
@@ -34,6 +36,9 @@ def filtersToWhere(filters):
 
 def stringToRangeCondition(attribute, lower, upper):
     if not (is_number(lower) and is_number(upper) and isIdentifier(attribute)):
+        #breaks the website
+        #try something other than exception?
+        #maybe on front end, check for input validity and bring in an alert instead of breaking on the backend
         print("yikessssssssssssssssssssssss")
         raise Exception("only numbers allowed as inputs for conditions")
     return RangeCondition(attribute, lower, upper)
@@ -57,14 +62,18 @@ def getCache(cache):
 
 def returnResponse():
     # print("###########################################################", filter)
+
     queryString = makeQuery(filter)
     print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
     print(queryString)
-    workflow_url = 'https://demo.vizierdb.info/vizier-db/api/v1/projects/9679e97a/branches/9d2942bd/head/sql?query='
+    workflow_url = 'https://demo.vizierdb.info/vizier-db/api/v1/projects/1/bran\
+    ches/1/head/sql?query='
     query = queryString
-    url = 'https://demo.vizierdb.info/auth/public?workflow-url=' + urllib.parse.quote(workflow_url) + urllib.parse.quote(urllib.parse.quote(query))
+    #url = 'https://demo.vizierdb.info/auth/public?workflow-url=' +
+    url = workflow_url + query#urllib.parse.quote(urllib.parse.quote(query))
     print(url)
-    response = requests.get(url)
+    response = requests.get(url, auth=HTTPBasicAuth('mimir', 'jormugundir'))
+    print(response)
     # resp1 = requests.post(url)
     # print(resp1)
     resp = response.json()
@@ -72,6 +81,7 @@ def returnResponse():
     #print(resp)
     print("++++++++++++++++++++++++++++++")
     return resp
+
 
 def outputTable():
     # print("~~~~~~~~~~~~~~~@@@@@@@@@@@@@@@@@@@@@@@@@@@@@~~~~~~~~~~~~~~~~~~~~~~")
@@ -89,6 +99,7 @@ def outputTable():
     rows = []
     #col names:
     counter = -1
+    print(json_response)
     for col in json_response['schema']:
         cols.append(col['name'])
     for row in json_response['data']:
@@ -104,6 +115,8 @@ def outputTable():
 def getBoolData():
     print(queryString)
     boolean= json_response['colTaint']
+    boolean[0] = [False, True, False, True, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+    boolean[1] = [True, False, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
     boolData = []
     boolRow = []
     index = -1
@@ -121,6 +134,7 @@ def getBoolData():
         return ["%"]
     return boolData
 
+#
 
 def makeQuery(filters):
     #assuming queries is a list of lists

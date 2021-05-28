@@ -3,18 +3,22 @@
 $(document).ready(function(){
   var rowID = -1;
   var datatable = JSON.parse($("#tableinframe").attr("name"));
+  var now = new Date();
+  var formatted = now.getHours() + "hr" + now.getMinutes() + "m" + now.getSeconds() + "s";
   console.log("############################################")
   console.log(datatable);
   $('.dataframe').DataTable({
+    paging: true,
+    pageLength: 4,
     dom: 'lBfrtip',
         buttons: [{
           extend: 'csv',
           text: 'Export',
-          title: 'datafile'
+          title: formatted
         }
       ],
   "scrollX": true,
-  "sScrollY": 350,
+  "sScrollY": 170,
   "bFilter": false,
   "bSort": true,
   "rowCallback": function( row, data ) {
@@ -31,14 +35,16 @@ $(document).ready(function(){
     console.log(rowID);
     if (datatable.length >= 1 && datatable[0] != "%"){
       var rowIndicies = datatable[rowID]
-      for (i of rowIndicies){
+      while (rowIndicies.length != 0){
         console.log("COLORING THIS NUM: ")
-        console.log(i);
+        console.log(rowIndicies[0]);
+        var i = rowIndicies[0];
         $('td', row).eq(i).addClass('highlight');
         rowIndicies.shift()
+        console.log(rowIndicies);
+      }
       }
     }
-      }
   });
   // var tabley = $('.dataframe').DataTable();
   // console.log(tabley.row(0).data().column(0).data());

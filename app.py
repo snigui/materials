@@ -19,7 +19,7 @@ cache = {"filters":""}
 df = pd.DataFrame()
 available_indicators = df
 initial= table.makeTable
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css', '/static/css/template.css']
 #
 # server = flask.Flask(__name__)
 # plot = dash.Dash(__name__, server=server, url_base_pathname='/get/', external_stylesheets=external_stylesheets)
@@ -128,6 +128,7 @@ def table():
         df = tables
         print(df)
         tabledata = json.dumps(initial.getBoolData())
+        print(tabledata)
         return render_template("index.html", table=[df.to_html(header="true")], tabledata=tabledata)
     return render_template("index.html", table=[df.to_html(header="true")], tabledata=tabledata)
     #serve this as iframe???
@@ -158,7 +159,7 @@ plot.layout = html.Div([
                         dcc.Dropdown(
                             id='xaxis-column',
                             options=[{'label': i, 'value': i} for i in colNames],
-                            value='STAT_n_D'
+                            value='int_r'
                             ),
                         dcc.RadioItems(
                  id='xaxis-type',

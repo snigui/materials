@@ -9,6 +9,10 @@ p               { left: 5%;}
   width: 40px;
 }
 
+.Select-clear-zone{
+  display: none;
+}
+
 #table1{
   position: relative;
   /* top: 15%;
@@ -19,8 +23,8 @@ p               { left: 5%;}
 
 #tableinframe{
   position: fixed;
-  top: 15%;
-  left: 7%;
+  top: 22%;
+  left: 12%;
   margin-top: -50px;
   margin-left: -100px;
 }
@@ -61,8 +65,8 @@ td.highlight {
 }
 
 div.dataTables_wrapper {
-  width: 1500px;
-  height: 800px;
+  width: 1050px;
+  height: 300px;
   margin: 0 auto;
   overflow-x: scroll;
 }
