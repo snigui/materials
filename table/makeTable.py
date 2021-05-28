@@ -66,8 +66,7 @@ def returnResponse():
     queryString = makeQuery(filter)
     print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
     print(queryString)
-    workflow_url = 'https://demo.vizierdb.info/vizier-db/api/v1/projects/1/bran\
-    ches/1/head/sql?query='
+    workflow_url = 'https://demo.vizierdb.info/vizier-db/api/v1/projects/1/branches/1/head/sql?query='
     query = queryString
     #url = 'https://demo.vizierdb.info/auth/public?workflow-url=' +
     url = workflow_url + query#urllib.parse.quote(urllib.parse.quote(query))
