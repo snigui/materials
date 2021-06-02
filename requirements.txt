@@ -24,6 +24,6 @@ six==1.15.0
 tornado==6.0.4
 typing-extensions==3.7.4.2
 unicodecsv==0.14.1
-urllib3==1.25.9
+urllib3==1.26.5
 virtualenv==20.0.25
 websocket-client==0.57.0
