@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scatterplot</title>
+</head>
+<label>Choose x-axis value:
+<select class="dropdown" id="x-axis">
+<option value="">x-axis</option>
+    <option value="0">case_name</option>
+    <option value="1">source</option>
+    <option value="2">ABS_wf_D</option>
+    <option value=3>STAT_CC_D</option>
+    <option value=4>STAT_CC_A</option>
+    <option value=5>STAT_CC_A_Ca</option>
+    <option value=6>STAT_n</option>
+    <option value=7>STAT_n_D</option>
+    <option value=8>STAT_n_A</option>
+    <option value=9>ABS_f_D</option>
+    <option value=10>CT_f_conn_D</option>
+    <option value=11>CT_f_conn_D_An</option>
+    <option value=12>CT_f_conn_A_Ca</option>
+    <option value=13>DISS_wf10_D</option>
+    <option value=14>DISS_f10_D</option>
+    <option value=15>DISS_f2_D</option>
+    <option value=16>DISS_prob_reach_I</option>
+    <option value=17>STAT_e</option>
+    <option value=18>CT_e_conn</option>
+    <option value=19>CT_f_e_conn</option>
+    <option value=20>CT_e_D_An</option>
+    <option value=21>CT_e_A_Ca</option>
+    <option value=22>CT_n_D_adj_An</option>
+    <option value=23>CT_f_D_tort1</option>
+    <option value=24>CT_wtort_D</option>
+    <option value=25>CT_n_A_adj_Ca</option>
+    <option value=26>CT_f_A_tort1</option>
+    <option value=27>CT_wtort_A</option>
+    <option value=28>int_x</option>
+    <option value=29>int_d</option>
+    <option value=30>int_g</option>
+    <option value=31>int_r</option>
+    <option value=32>NORMALIZED_INTERFACE</option>
+    <option value=33>jsc</option>
+    <option value=34>jsc_d</option>
+    <option value=35>int_r_int_d</option>
+    <option value=36>int_d_int_g</option>
+    <option value=37>jsc_int_d</option>
+</select>
+</label>
+<!-- ['case_name', 'source', 'ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
+            'STAT_CC_D_An', 'STAT_CC_A_Ca', 'STAT_n', 'STAT_n_D', 'STAT_n_A',
+            'ABS_f_D', 'CT_f_conn_D', 'CT_f_conn_D_An', 'CT_f_conn_A_Ca',
+            'DISS_wf10_D', 'DISS_f10_D', 'DISS_f2_D', 'DISS_prob_reach_I', 'STAT_e',
+            'CT_e_conn', 'CT_f_e_conn', 'CT_e_D_An', 'CT_e_A_Ca', 'CT_n_D_adj_An',
+            'CT_f_D_tort1', 'CT_wtort_D', 'CT_n_A_adj_Ca', 'CT_f_A_tort1',
+            'CT_wtort_A', 'int_x', 'int_d', 'int_g', 'int_r', 'NORMALIZED_INTERFACE',
+            'jsc', 'jsc_d', 'int_r_int_d', 'int_d_int_g', 'jsc_int_d'] -->
+<label> Choose y-axis value:
+<select class="dropdown" id="y-axis">
+<option value="">y-axis</option>
+    <option value=0>case_name</option>
+    <option value=1>source</option>
+    <option value=2>ABS_wf_D</option>
+    <option value="3">STAT_CC_D</option>
+    <option value=4>STAT_CC_A</option>
+    <option value=5>STAT_CC_A_Ca</option>
+    <option value=6>STAT_n</option>
+    <option value=7>STAT_n_D</option>
+    <option value=8>STAT_n_A</option>
+    <option value=9>ABS_f_D</option>
+    <option value=10>CT_f_conn_D</option>
+    <option value=11>CT_f_conn_D_An</option>
+    <option value=12>CT_f_conn_A_Ca</option>
+    <option value=13>DISS_wf10_D</option>
+    <option value=14>DISS_f10_D</option>
+    <option value=15>DISS_f2_D</option>
+    <option value=16>DISS_prob_reach_I</option>
+    <option value=17>STAT_e</option>
+    <option value=18>CT_e_conn</option>
+    <option value=19>CT_f_e_conn</option>
+    <option value=20>CT_e_D_An</option>
+    <option value=21>CT_e_A_Ca</option>
+    <option value=22>CT_n_D_adj_An</option>
+    <option value=23>CT_f_D_tort1</option>
+    <option value=24>CT_wtort_D</option>
+    <option value=25>CT_n_A_adj_Ca</option>
+    <option value=26>CT_f_A_tort1</option>
+    <option value=27>CT_wtort_A</option>
+    <option value=28>int_x</option>
+    <option value=29>int_d</option>
+    <option value=30>int_g</option>
+    <option value=31>int_r</option>
+    <option value=32>NORMALIZED_INTERFACE</option>
+    <option value=33>jsc</option>
+    <option value=34>jsc_d</option>
+    <option value=35>int_r_int_d</option>
+    <option value=36>int_d_int_g</option>
+    <option value=37>jsc_int_d</option>
+</select>
+</label>
+<div>
+    <input type="submit" value="Submit">
+  </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<canvas id="myChart"></canvas>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<div id="chartContainer" style="height: 360px; width: 100%;"></div>
+
+  <script>
+      let x_from_frontend = document.getElementById('x-axis');
+      let y_from_frontend = document.getElementById('y-axis');
+      let x = x_from_frontend.value;
+      let y = y_from_frontend.value;
+      const button = document.querySelector('input');
+      //let x; //this variable copies the value from x_from_frontend
+      //let y; //this variable copies the value from y_from_frontend
+
+      let rawInput = {{ jsonData | tojson | safe }} //returnResponse JSON string from app.py
+      const schema = {{ colNames | safe }}
+      const inputData = rawInput["data"]; //data part of the returnResponse JSON string
+      let allPointsToBeDisplayed = []; //used to display
+      //TODO: use these event listeners to take the x and y values from the inputData dataset and plot the datasets on the scatter plot.
+      //TODO: The scatter plots must have different colors.
+      //TODO: Label the axes in the graph
+      let inputData_for_x_axis = []; //make a flowchart. When does each block of code depend on? When do you need each block of code to run. Don't use a value before its properly defined
+      let inputData_for_y_axis = [];
+      button.addEventListener('click', updateButton);
+      console.log(x);
+      console.log(y);
+      x_from_frontend.addEventListener('change', ()=> {
+          //let x = event.options[event.selectedIndex].value;
+          for(let i = 0; i < inputData.length; i++){
+              console.log(x);
+              inputData_for_x_axis.push(inputData[i][x_from_frontend.value]); //values are undefined I don't understand why they are undefined
+          }
+      });
+      y_from_frontend.addEventListener('change', () => {
+          //let y = event.options[event.selectedIndex].value;
+          for (let i = 0; i < inputData.length; i++) {
+              console.log(y);
+              inputData_for_y_axis.push(inputData[i][y_from_frontend.value]); //values are undefined here too
+          }
+      });
+      function updateButton(){
+            for(let i = 0; i < inputData.length; i++){
+            let onePointToBeDisplayed = {x: inputData_for_x_axis[i], y: inputData_for_y_axis[i]}; //hence undefined coordinates and it doesn't plot the graph
+            //console.log(onePointToBeDisplayed);
+                console.log("inputData for x-axis at index " + i + " contains = " + inputData_for_x_axis[i]);
+                console.log("schema index value for x-axis" + " = " + x_from_frontend.value);
+                console.log("inputData for y-axis at index " + i + " contains = " + inputData_for_y_axis[i]);
+                 console.log("schema index value for y-axis" + " = " + y_from_frontend.value);
+                 console.log("coordinates to be displayed" + " = " + "(" + onePointToBeDisplayed.x + " , " + onePointToBeDisplayed.y + ")");
+            allPointsToBeDisplayed.push(onePointToBeDisplayed); //array is undefined.
+
+                //console.log(inputData_for_y_axis);
+                //console.log(x);
+                //console.log(y);
+        }
+      }
+
+
+      //Take the code that depends that on x or y and put it in the event handler and put its own function for both event handlers.
+
+
+
+
+      //TODO: Create one dataset for x and one dataset for y so that you can differentiate between them by using different colors
+      const data = {
+          datasets: [{ //there needs to be two datasets so that you can change color between two datasets
+                       //right now there is only one. One dataset for x-axis and one dataset for y-axis
+              label: 'Dataset',
+              pointBackgroundColor: 'red',
+                borderColor: 'red',
+                backgroundColor : 'rgba(255,0,0,0.5)',
+              data: allPointsToBeDisplayed,
+         }],
+      };
+
+      const config = {
+          type: 'scatter',
+          data: data,
+          options: {
+            scales: {
+                xAxes: [{
+                type: 'linear',
+                position: 'bottom',
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'X axis label'
+                    }
+                }],
+                yAxes: [{
+                    type: 'linear',
+                position: 'bottom',
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Y axis label'
+                    }
+                }]
+            }
+        }
+      };
+      var myChart = new Chart(
+       document.getElementById('myChart'),
+    config
+  );
+</script>
+
+<!--<script>
+    var JSONData = document.getElementById("data-viz");
+</script> -->
+
+   <!--Create a div where the graph will take place-->
+<!--<script src="https://d3js.org/d3.v7.js"></script> -->
+  <!--<div id="data-viz">
+    {{ jsonData | tojson | safe }}
+</div> -->
+  <!--<script>
+//import {chart as chart1} with {values as data} from "@d3/histogram"
+      // set the dimensions and margins of the graph
+
+//var jsonElement = document.getElementById("data-viz");
+//var jsonHTML = jsonElement.outerHTML;
+//var jsonData = {jsonHTML : jsonHTML};
+//var json = JSON.stringify(jsonData);
+
+var cols = {{ colNames | safe }}
+var jsonData = {{ jsonData | tojson | safe }};
+var json = JSON.parse(jsonData);
+
+  var margin = {top: 10, right: 30, bottom: 30, left: 60},
+    width = 460 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+
+  // append the svg object to the body of the page
+var svg = d3.select("my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+  //Read the data
+       d3.json(json, function(data) {
+           // Add X axis
+  var x = d3.scaleLinear()
+    .domain([0, 4000])
+    .range([ 0, width ]);
+  svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+  // Add Y axis
+  var y = d3.scaleLinear()
+    .domain([0, 5000])
+    .range([ height, 0]);
+  svg.append("g")
+    .call(d3.axisLeft(y));
+
+  // Add dots
+  svg.append('g')
+    .selectAll("dot")
+    .data(data)
+    .enter()
+    .append("circle")
+      .attr("cx", function (d) { return x(d.GrLivArea); } )
+      .attr("cy", function (d) { return y(d.SalePrice); } )
+      .attr("r", 1.5)
+      .style("fill", "#69b3a2")
+      });
+
+  </script> -->
+</body>
+</html>
