@@ -98,7 +98,7 @@
     <option value=37>jsc_int_d</option>
 </select>
 </label>
-<div>
+ <div>
     <input type="submit" value="Submit">
   </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -109,8 +109,8 @@
   <script>
       let x_from_frontend = document.getElementById('x-axis');
       let y_from_frontend = document.getElementById('y-axis');
-      let x = x_from_frontend.value;
-      let y = y_from_frontend.value;
+      //let x = x_from_frontend.value;
+      //let y = y_from_frontend.value;
       const button = document.querySelector('input');
       //let x; //this variable copies the value from x_from_frontend
       //let y; //this variable copies the value from y_from_frontend
@@ -124,40 +124,56 @@
       //TODO: Label the axes in the graph
       let inputData_for_x_axis = []; //make a flowchart. When does each block of code depend on? When do you need each block of code to run. Don't use a value before its properly defined
       let inputData_for_y_axis = [];
+      //button.addEventListener('click', updateButton);
+      //console.log(x);
+      //console.log(y);
       button.addEventListener('click', updateButton);
-      console.log(x);
-      console.log(y);
       x_from_frontend.addEventListener('change', ()=> {
           //let x = event.options[event.selectedIndex].value;
           for(let i = 0; i < inputData.length; i++){
-              console.log(x);
-              inputData_for_x_axis.push(inputData[i][x_from_frontend.value]); //values are undefined I don't understand why they are undefined
+              //console.log(x);
+              inputData_for_x_axis.push(parseFloat(inputData[i][x_from_frontend.value])); //values are undefined I don't understand why they are undefined
           }
       });
       y_from_frontend.addEventListener('change', () => {
           //let y = event.options[event.selectedIndex].value;
           for (let i = 0; i < inputData.length; i++) {
-              console.log(y);
-              inputData_for_y_axis.push(inputData[i][y_from_frontend.value]); //values are undefined here too
+              //console.log(y);
+              inputData_for_y_axis.push(parseFloat(inputData[i][y_from_frontend.value])); //values are undefined here too
           }
       });
-      function updateButton(){
-            for(let i = 0; i < inputData.length; i++){
-            let onePointToBeDisplayed = {x: inputData_for_x_axis[i], y: inputData_for_y_axis[i]}; //hence undefined coordinates and it doesn't plot the graph
-            //console.log(onePointToBeDisplayed);
-                console.log("inputData for x-axis at index " + i + " contains = " + inputData_for_x_axis[i]);
-                console.log("schema index value for x-axis" + " = " + x_from_frontend.value);
-                console.log("inputData for y-axis at index " + i + " contains = " + inputData_for_y_axis[i]);
-                 console.log("schema index value for y-axis" + " = " + y_from_frontend.value);
-                 console.log("coordinates to be displayed" + " = " + "(" + onePointToBeDisplayed.x + " , " + onePointToBeDisplayed.y + ")");
-            allPointsToBeDisplayed.push(onePointToBeDisplayed); //array is undefined.
+      //const concatenatedArray = inputData_for_x_axis.concat(inputData_for_y_axis);
 
-                //console.log(inputData_for_y_axis);
-                //console.log(x);
-                //console.log(y);
-        }
-      }
+     function updateButton(){
 
+           for(let i = 0; i < inputData.length; i++){
+           //let onePointToBeDisplayed = {x: parseFloat(inputData_for_x_axis[i]), y: parseFloat(inputData_for_y_axis[i])}; //hence undefined coordinates and it doesn't plot the graph
+           //console.log(onePointToBeDisplayed);
+               console.log("inputData for x-axis at index " + i + " contains = " + inputData_for_x_axis[i]);
+               console.log("schema index value for x-axis" + " = " + x_from_frontend.value);
+               console.log("inputData for y-axis at index " + i + " contains = " + inputData_for_y_axis[i]);
+                console.log("schema index value for y-axis" + " = " + y_from_frontend.value);
+                console.log("coordinates to be displayed" + " = " + "(" + parseFloat(inputData_for_x_axis[i]) + " , " + parseFloat(inputData_for_y_axis[i]) + ")");
+           allPointsToBeDisplayed.push({x: inputData_for_x_axis[i], y: inputData_for_y_axis[i]}); //array is undefined.
+               //console.log(inputData_for_y_axis);
+               //console.log(x);
+               //console.log(y);
+       }
+     }
+
+     var ctx = document.getElementById("myChart").getContext('2d');
+     var chart = new Chart(ctx, {
+         type: 'scatter',
+         data: {
+             labels: 'data',
+             datasets: [{
+                 label: 'Data',
+                 backgroundColor: 'rgb(255, 99, 132)',
+                 borderColor: 'rgb(255, 99, 132)',
+                 data: allPointsToBeDisplayed
+             }]
+         }
+     })
 
       //Take the code that depends that on x or y and put it in the event handler and put its own function for both event handlers.
 
@@ -165,14 +181,14 @@
 
 
       //TODO: Create one dataset for x and one dataset for y so that you can differentiate between them by using different colors
-      const data = {
+     /* const data = {
           datasets: [{ //there needs to be two datasets so that you can change color between two datasets
                        //right now there is only one. One dataset for x-axis and one dataset for y-axis
               label: 'Dataset',
               pointBackgroundColor: 'red',
                 borderColor: 'red',
                 backgroundColor : 'rgba(255,0,0,0.5)',
-              data: allPointsToBeDisplayed,
+              data: concatenatedArray,
          }],
       };
 
@@ -203,7 +219,7 @@
       var myChart = new Chart(
        document.getElementById('myChart'),
     config
-  );
+  ); */
 </script>
 
 <!--<script>
