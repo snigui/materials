@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jsonData</title>
+</head>
+<body>
+<div id="data-viz">
+    {{ jsonData | safe }}
+</div>
+<script>
+    var element ={{ jsonData | tojson| safe }};
+    var json = JSON.parse(element);
+
+    var a = {{ colNames | safe }}
+    var firstElem = a[0];
+
+    //var colNames = document.getElementById("colNames");
+</script>
+</body>
+</html>
