@@ -7,23 +7,29 @@
 <label>Choose x-axis value:
 <select class="dropdown" id="x-axis">
 <option value="">x-axis</option>
-    <option value="0">case_name</option>
-    <option value="1">source</option>
-    <option value="2">ABS_wf_D</option>
+    <!--     const schema = [ 'STAT_CC_D_An', 'STAT_CC_A_Ca', 'STAT_n', 'STAT_n_D', 'STAT_n_A', 'ABS_f_D', 'CT_f_conn_D',
+                          'CT_f_conn_D_An', 'CT_f_conn_A_Ca', 'DISS_wf10_D', 'DISS_f10_D', 'DISS_f2_D', 'DISS_prob_reach_I',
+                          'STAT_e', 'CT_e_conn', 'CT_f_e_conn', 'CT_e_D_An', 'CT_e_A_Ca', 'CT_n_D_adj_An', 'CT_f_D_tort1',
+                          'CT_wtort_D', 'CT_n_A_adj_Ca', 'CT_f_A_tort1', 'CT_wtort_A', 'int_x', 'int_d', 'int_g', 'int_r',
+                          'NORMALIZED_INTERFACE', 'jsc', 'jsc_d', 'int_r_int_d', 'int_d_int_g', 'jsc_int_d']
+ -->
+    <option value=0>case_name</option>
+    <option value=1>source</option>
+    <option value=2>ABS_wf_D</option>
     <option value=3>STAT_CC_D</option>
     <option value=4>STAT_CC_A</option>
-    <option value=5>STAT_CC_A_Ca</option>
-    <option value=6>STAT_n</option>
-    <option value=7>STAT_n_D</option>
-    <option value=8>STAT_n_A</option>
-    <option value=9>ABS_f_D</option>
-    <option value=10>CT_f_conn_D</option>
-    <option value=11>CT_f_conn_D_An</option>
-    <option value=12>CT_f_conn_A_Ca</option>
-    <option value=13>DISS_wf10_D</option>
-    <option value=14>DISS_f10_D</option>
-    <option value=15>DISS_f2_D</option>
-    <option value=16>DISS_prob_reach_I</option>
+    <option value=5>STAT_CC_D_An</option>
+    <option value=6>STAT_CC_A_Ca</option>
+    <option value=7>STAT_n</option>
+    <option value=8>STAT_n_D</option>
+    <option value=9>STAT_n_A</option>
+    <option value=10>ABS_f_D</option>
+    <option value=11>'CT_f_conn_D</option>
+    <option value=12>CT_f_conn_D_An</option>
+    <option value=13>CT_f_conn_A_Ca</option>
+    <option value=14>DISS_wf10_D</option>
+    <option value=15>DISS_f10_D</option>
+    <option value=16>DISS_f2_D</option>
     <option value=17>STAT_e</option>
     <option value=18>CT_e_conn</option>
     <option value=19>CT_f_e_conn</option>
@@ -47,34 +53,33 @@
     <option value=37>jsc_int_d</option>
 </select>
 </label>
-<!-- ['case_name', 'source', 'ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
-            'STAT_CC_D_An', 'STAT_CC_A_Ca', 'STAT_n', 'STAT_n_D', 'STAT_n_A',
-            'ABS_f_D', 'CT_f_conn_D', 'CT_f_conn_D_An', 'CT_f_conn_A_Ca',
-            'DISS_wf10_D', 'DISS_f10_D', 'DISS_f2_D', 'DISS_prob_reach_I', 'STAT_e',
-            'CT_e_conn', 'CT_f_e_conn', 'CT_e_D_An', 'CT_e_A_Ca', 'CT_n_D_adj_An',
-            'CT_f_D_tort1', 'CT_wtort_D', 'CT_n_A_adj_Ca', 'CT_f_A_tort1',
-            'CT_wtort_A', 'int_x', 'int_d', 'int_g', 'int_r', 'NORMALIZED_INTERFACE',
-            'jsc', 'jsc_d', 'int_r_int_d', 'int_d_int_g', 'jsc_int_d'] -->
+    <!--     const schema = ['case_name', 'source', 'ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
+                          'STAT_CC_D_An', 'STAT_CC_A_Ca', 'STAT_n', 'STAT_n_D', 'STAT_n_A', 'ABS_f_D', 'CT_f_conn_D',
+                          'CT_f_conn_D_An', 'CT_f_conn_A_Ca', 'DISS_wf10_D', 'DISS_f10_D', 'DISS_f2_D', 'DISS_prob_reach_I',
+                          'STAT_e', 'CT_e_conn', 'CT_f_e_conn', 'CT_e_D_An', 'CT_e_A_Ca', 'CT_n_D_adj_An', 'CT_f_D_tort1',
+                          'CT_wtort_D', 'CT_n_A_adj_Ca', 'CT_f_A_tort1', 'CT_wtort_A', 'int_x', 'int_d', 'int_g', 'int_r',
+                          'NORMALIZED_INTERFACE', 'jsc', 'jsc_d', 'int_r_int_d', 'int_d_int_g', 'jsc_int_d']
+ -->
 <label> Choose y-axis value:
 <select class="dropdown" id="y-axis">
 <option value="">y-axis</option>
     <option value=0>case_name</option>
     <option value=1>source</option>
     <option value=2>ABS_wf_D</option>
-    <option value="3">STAT_CC_D</option>
+    <option value=3>STAT_CC_D</option>
     <option value=4>STAT_CC_A</option>
-    <option value=5>STAT_CC_A_Ca</option>
-    <option value=6>STAT_n</option>
-    <option value=7>STAT_n_D</option>
-    <option value=8>STAT_n_A</option>
-    <option value=9>ABS_f_D</option>
-    <option value=10>CT_f_conn_D</option>
-    <option value=11>CT_f_conn_D_An</option>
-    <option value=12>CT_f_conn_A_Ca</option>
-    <option value=13>DISS_wf10_D</option>
-    <option value=14>DISS_f10_D</option>
-    <option value=15>DISS_f2_D</option>
-    <option value=16>DISS_prob_reach_I</option>
+    <option value=5>STAT_CC_D_An</option>
+    <option value=6>STAT_CC_A_Ca</option>
+    <option value=7>STAT_n</option>
+    <option value=8>STAT_n_D</option>
+    <option value=9>STAT_n_A</option>
+    <option value=10>ABS_f_D</option>
+    <option value=11>'CT_f_conn_D</option>
+    <option value=12>CT_f_conn_D_An</option>
+    <option value=13>CT_f_conn_A_Ca</option>
+    <option value=14>DISS_wf10_D</option>
+    <option value=15>DISS_f10_D</option>
+    <option value=16>DISS_f2_D</option>
     <option value=17>STAT_e</option>
     <option value=18>CT_e_conn</option>
     <option value=19>CT_f_e_conn</option>
@@ -101,10 +106,10 @@
  <div>
     <input type="submit" value="Submit">
   </div>
-<button onclick="clearGraph()">
+<button class="btn btn-success" onclick="clearGraph();clearlabels()">
 Clear
 </button>
-<button class="btn btn-success" onclick="updateData()">
+<button class="btn btn-success" onclick="updateData();updateLabels()">
     updateData
 </button>
 
@@ -141,6 +146,7 @@ Clear
       x_from_frontend.addEventListener('change', ()=> {
           //let x = event.options[event.selectedIndex].value;
           x_axis_label = schema[x_from_frontend.value];
+          console.log(x_axis_label);
           for(let i = 0; i < inputData.length; i++){
               //console.log(x);
               inputData_for_x_axis.push(parseFloat(inputData[i][x_from_frontend.value])); //values are undefined I don't understand why they are undefined
@@ -149,6 +155,7 @@ Clear
       y_from_frontend.addEventListener('change', () => {
           //let y = event.options[event.selectedIndex].value;
           y_axis_label = schema[y_from_frontend.value];
+          console.log(y_axis_label);
           for (let i = 0; i < inputData.length; i++) {
               //console.log(y);
               inputData_for_y_axis.push(parseFloat(inputData[i][y_from_frontend.value])); //values are undefined here too
@@ -169,7 +176,9 @@ Clear
                //console.log(inputData_for_y_axis);
                //console.log(x);
                //console.log(y);
+
        }
+           updateLabels();
      }
      var ctx = document.getElementById("myChart").getContext('2d');
      var chart = new Chart(ctx, {
@@ -184,16 +193,27 @@ Clear
              }]
          },
          options: {
-             scales: {
-                 y: {
-                     scaleLabel: {
-                         display: true,
-                         text: 'hello!'
-                     }
+        scales: {
+            x: {
+                title: {
+                display: true,
+                text: x_axis_label
             }
-        },
+            },
+            y: {
+                title: {
+                display: true,
+                text: y_axis_label
+            }
+            }
+        }
          }
      });
+     function updateLabels(){
+         chart.options.scales.x.title.text = schema[x_from_frontend.value];
+         chart.options.scales.y.title.text = schema[y_from_frontend.value];
+         chart.update();
+     }
      function updateData(){
          const newX = document.getElementById('x-axis')
          const newY = document.getElementById('y-axis')
@@ -215,6 +235,11 @@ Clear
              chart.data.datasets[0].data.pop();
          }
          //chart.clear();
+         chart.update();
+     }
+     function clearlabels(){
+         x_axis_label = "";
+         y_axis_label = "";
          chart.update();
      }
      /*
@@ -257,6 +282,15 @@ Clear
          }],
       };
 
+     const schema = ['case_name', 'source', 'ABS_wf_D', 'STAT_CC_D', 'STAT_CC_A',
+                          'STAT_CC_D_An', 'STAT_CC_A_Ca', 'STAT_n', 'STAT_n_D', 'STAT_n_A', 'ABS_f_D', 'CT_f_conn_D',
+                          'CT_f_conn_D_An', 'CT_f_conn_A_Ca', 'DISS_wf10_D', 'DISS_f10_D', 'DISS_f2_D', 'DISS_prob_reach_I',
+                          'STAT_e', 'CT_e_conn', 'CT_f_e_conn', 'CT_e_D_An', 'CT_e_A_Ca', 'CT_n_D_adj_An', 'CT_f_D_tort1',
+                          'CT_wtort_D', 'CT_n_A_adj_Ca', 'CT_f_A_tort1', 'CT_wtort_A', 'int_x', 'int_d', 'int_g', 'int_r',
+                          'NORMALIZED_INTERFACE', 'jsc', 'jsc_d', 'int_r_int_d', 'int_d_int_g', 'jsc_int_d']
+
+                TODO: 0-38
+
       const config = {
           type: 'scatter',
           data: data,
@@ -269,6 +303,7 @@ Clear
                       display: true,
                       labelString: 'X axis label'
                     }
+
                 }],
                 yAxes: [{
                     type: 'linear',
